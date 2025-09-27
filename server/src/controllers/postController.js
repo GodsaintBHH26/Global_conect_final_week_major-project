@@ -12,7 +12,7 @@ export const createPost = async (req, res) => {
     const post = await Post.create({ userId: req.user._id, content, image });
     res.status(201).json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -24,7 +24,7 @@ export const getFeed = async (req, res) => {
   try {
     const userId = req.params.userId;
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
     const ids = [user._id, ...user.connections];
     const posts = await Post.find({ userId: { $in: ids } })
@@ -32,7 +32,7 @@ export const getFeed = async (req, res) => {
       .populate("userId", "name profilePic");
     res.json(posts);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -42,7 +42,7 @@ export const getFeed = async (req, res) => {
 export const likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (!post) return res.status(404).json({ msg: "Post not found" });
 
     const uid = req.user._id;
     if (post.likes.includes(uid)) {
@@ -54,7 +54,7 @@ export const likePost = async (req, res) => {
     await post.save();
     res.json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -65,11 +65,11 @@ export const commentPost = async (req, res) => {
   try {
     const { text } = req.body;
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (!post) return res.status(404).json({ msg: "Post not found" });
     post.comments.push({ userId: req.user._id, text });
     await post.save();
     res.json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };

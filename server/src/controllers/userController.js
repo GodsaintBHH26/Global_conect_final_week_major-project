@@ -27,26 +27,26 @@ export const updateBasicDetails = async (req, res) => {
 };
 
 /**
- * GET /api/users/:id
+ * GET /api/user/:id
  */
 export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ msg: "User not found" });
     res.json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
 /**
- * PUT /api/users/:id
+ * PUT /api/user/:id
  */
 export const updateUser = async (req, res) => {
   try {
     // only allow user or admin
     if (req.user._id.toString() !== req.params.id && req.user.role !== "admin") {
-      return res.status(403).json({ message: "Not authorized" });
+      return res.status(403).json({ msg: "Not authorized" });
     }
 
     const updates = req.body;
@@ -54,24 +54,24 @@ export const updateUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true }).select("-password");
     res.json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
 /**
- * POST /api/users/:id/connect
+ * POST /api/user/:id/connect
  * send connection request (adds to connectionRequests of target)
  */
 export const sendConnectionRequest = async (req, res) => {
   try {
     const targetId = req.params.id;
-    if (targetId === req.user._id.toString()) return res.status(400).json({ message: "Cannot connect to self" });
+    if (targetId === req.user._id.toString()) return res.status(400).json({ msg: "Cannot connect to self" });
 
     const target = await User.findById(targetId);
-    if (!target) return res.status(404).json({ message: "Target user not found" });
+    if (!target) return res.status(404).json({ msg: "Target user not found" });
 
     // if already connected
-    if (target.connections.includes(req.user._id)) return res.status(400).json({ message: "Already connected" });
+    if (target.connections.includes(req.user._id)) return res.status(400).json({ msg: "Already connected" });
 
     // add request if not present
     if (!target.connectionRequests.includes(req.user._id)) {
@@ -79,9 +79,9 @@ export const sendConnectionRequest = async (req, res) => {
       await target.save();
     }
 
-    res.json({ message: "Connection request sent" });
+    res.json({ msg: "Connection request sent" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -94,7 +94,7 @@ export const acceptConnection = async (req, res) => {
     const requesterId = req.params.id;
     const user = await User.findById(req.user._id);
     const requester = await User.findById(requesterId);
-    if (!requester) return res.status(404).json({ message: "Requester not found" });
+    if (!requester) return res.status(404).json({ msg: "Requester not found" });
 
     // remove from connectionRequests
     user.connectionRequests = user.connectionRequests.filter((id) => id.toString() !== requesterId);
@@ -105,8 +105,8 @@ export const acceptConnection = async (req, res) => {
     await user.save();
     await requester.save();
 
-    res.json({ message: "Connection accepted" });
+    res.json({ msg: "Connection accepted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };

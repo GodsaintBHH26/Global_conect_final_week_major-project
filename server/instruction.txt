@@ -27,7 +27,7 @@ create postController....
 -----------------------|27-09-25 2:42PM|---------------------------
 **Arijit Kabiraj**
 * Fixed the errors
-* PUT api/user/add-details is a route I set to add the basic details like - user education, experience, skills etc. Please don't remove this function. We are not taking these details while the user account is created, instead we add these details when the user account is already created.
+* PUT api/user/add-details is a route I set to add the basic details like - user education, experience, skills etc. Please don't remove this function. We are not taking these details while the user account is created, instead we add these details when the user account is created.
 
 **NOTE**
 please read and try to understand the already written code in the file you're trying to work on.
