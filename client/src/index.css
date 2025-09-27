@@ -1,15 +1,323 @@
-@import "tailwindcss";
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* src/index.css */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@import './styles/colors.css'; 
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+body {
+  font-family: var(--gc-font-family-body);
+  color: var(--gc-color-text);
+  background-color: #f3f2ef;
+}
+
+h1, h2, h3 {
+  font-family: var(--gc-font-family-heading);
+  color: var(--gc-color-heading);
+}
+
+.container-3col {
+  max-width: 1128px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+
+.gc-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--gc-color-white);
+  border-bottom: 1px solid var(--gc-color-border);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05); 
+  height: 65px; 
+}
+
+.gc-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.gc-search-container {  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.gc-search-input-wrapper {
+  position: relative;
+  width: 256px; 
+}
+
+.gc-search-input {
+  width: 100%;
+  padding: 0.375rem 1rem 0.375rem 2.5rem; 
+  font-size: 0.875rem;
+  border-radius: 0.5rem; 
+  border: none;
+  background-color: #eef3f8;
+  color: var(--gc-color-text);
+  outline: none;
+  transition: all 150ms ease-in-out;
+}
+
+.gc-search-input:focus {
+  border: 1px solid var(--gc-color-primary);
+  box-shadow: 0 0 0 1px var(--gc-color-primary);
+}
+
+.gc-search-icon {
+  position: absolute;
+  left: 0.75rem; 
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gc-color-text-muted);
+}
+
+
+.gc-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  padding-bottom: 0; 
+  margin-bottom: -2px; 
+  text-align: center;
+  height: 100%;
+  text-decoration: none;
+
+  border-bottom: 2px solid transparent; 
+  
+  color: var(--gc-color-text-muted);
+  transition: color 200ms, border-color 200ms;
+}
+
+.gc-nav-item:hover {
+  color: var(--gc-color-heading);
+
+  border-bottom-color: var(--gc-color-heading);
+}
+
+.gc-nav-item-active {
+  color: var(--gc-color-heading);
+
+  border-bottom-color: var(--gc-color-heading);
+}
+
+.gc-nav-item-label {
+    margin-top: 0.125rem;
+    font-size: 0.75rem; 
+    font-weight: 600;
+    display: none; 
+    text-decoration: none;
+}
+
+/* Media Queries for Responsiveness */
+
+/* Show nav labels on screens >= 640px (sm breakpoint) */
+@media (min-width: 640px) {
+  .gc-nav-item-label {
+    display: inline-block;
+  }
+  /* Show search bar on screens >= 640px (sm breakpoint) */
+  .gc-search-container.gc-sm-hidden {
+      display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .gc-lg-hidden {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------- */
+/* NEW HOMEPAGE PLAIN CSS STYLING */
+/* ---------------------------------------------------- */
+
+.gc-card {
+    background-color: var(--gc-color-white);
+    border-radius: 8px; 
+    border: 1px solid var(--gc-color-border);
+    margin-bottom: 8px;}
+
+/* Base Flex Properties */
+.gc-flex { display: flex; }
+.gc-flex-col { display: flex; flex-direction: column; }
+.gc-justify-between { justify-content: space-between; }
+.gc-align-center { align-items: center; }
+.gc-align-start { align-items: flex-start; }
+.gc-space-x-2 > * + * { margin-left: 0.5rem; }
+.gc-space-y-2 > * + * { margin-top: 0.5rem; }
+
+.gc-grid-main {
+    display: grid;
+    gap: 1.5rem; 
+    /* Default: Single column for mobile */
+    grid-template-columns: 1fr;
+    padding-bottom: 2rem; }
+
+/* Medium Screens  */
+@media (min-width: 768px) {
+    .gc-grid-main {
+       grid-template-columns: 1fr 2.5fr; 
+    }
+    .gc-col-right {
+        display: none;
+    }
+}
+
+/* Large Screens  */
+@media (min-width: 1024px) {
+    .gc-grid-main {
+        grid-template-columns: 1fr 2.5fr 1fr;
+    }
+    .gc-col-left {
+        display: block !important; }
+    .gc-col-right {
+        display: block !important;   }
+}
+
+.gc-col-left {
+    display: none; 
+}
+.gc-col-middle {
+    grid-column: span 1; 
+}
+.gc-col-right {
+    display: none;
+}
+
+.gc-p-3 { 
+  padding: 0.75rem; }
+.gc-p-4
+ { padding: 1rem; }
+.gc-pt-10 
+{ padding-top: 2.5rem; }
+.gc-pb-3
+ { padding-bottom: 0.75rem; }
+
+/* Text Links and Buttons */
+.gc-link-primary {
+   color: var(--gc-color-primary); 
+   font-weight: 600; 
+   cursor: pointer; 
+   transition: color 150ms; }
+.gc-link-primary:hover {
+   color: #6a1aab; }
+.gc-btn-base {
+   cursor: pointer; 
+   transition: background-color 150ms,
+    box-shadow 150ms; }
+.gc-btn-primary {
+   background-color: var(--gc-color-primary); 
+   color: var(--gc-color-white); 
+   padding: 0.5rem 1rem; 
+   border-radius: 1.5rem;
+    font-weight: 600; 
+    border: none; }
+.gc-btn-primary:hover {
+   background-color: #6a1aab; }
+
+.gc-sticky-sidebar {
+    
+    position: sticky;
+     top: 72px;  }
+
+.gc-btn-reset {
+  
+    border: none;
+    outline: none;
+    background-color: transparent; 
+}
+
+
+
+.gc-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); 
+    z-index: 1000; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Container */
+.gc-modal-container {
+    background-color: var(--gc-color-white);
+    border-radius: 12px;
+    width: 90%; 
+    max-width: 552px; 
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.gc-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--gc-color-border);
+}
+
+
+.gc-modal-user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Modal Text Area */
+.gc-modal-textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 1.5rem;
+    border: none;
+    resize: none;
+    font-size: 1rem;
+    color: var(--gc-color-heading);
+    outline: none;
+}
+.gc-modal-textarea::placeholder {
+    color: var(--gc-color-text-muted);
+}
+
+
+.gc-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem 1rem 1.5rem;
+    border-top: 1px solid var(--gc-color-border);
+}
+
+.gc-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Post Button */
+.gc-btn-post {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 2rem;
+    color: var(--gc-color-white);
+    background-color: var(--gc-color-primary);
+    opacity: 0.5; 
+    cursor: not-allowed;
+    border: none;
+}
+.gc-btn-post:enabled {
+    opacity: 1;
+    cursor: pointer;
 }
