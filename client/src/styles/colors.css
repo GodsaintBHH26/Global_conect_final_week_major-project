@@ -1,0 +1,27 @@
+/* 
+  This file defines all core design variables (colors, fonts, etc.)
+*/
+
+:root {
+  /* --- Primary Brand & UI Colors --- */
+  --gc-color-primary: #8224E3; /* The main brand color (Purple) for CTAs, buttons, and highlights */
+  --gc-color-secondary: #54595F; /* Secondary color from Elementor kit */
+  --gc-color-text: #626276; /* Main body text color */
+  --gc-color-text-muted: #838397; /* Muted text (e.g., subtitles, metadata) */
+  --gc-color-heading: #4f515b; /* Heading and title color */
+  --gc-color-anchor: #29292d; /* Link color */
+  --gc-color-white: #FFFFFF; /* White color for backgrounds and text on dark backgrounds */
+  --gc-color-border: #e7edf2; /* Border color for cards, inputs, and dividers */
+
+  /* --- Semantic/Functional Colors --- */
+  --gc-color-success: #2ED573; /* For success messages, job applications, etc. */
+  --gc-color-success-light: #48ef8d; /* Lighter shade for success */
+  --gc-color-warning: #FFA500; /* For warnings or alerts */
+  --gc-color-error: #FF0000; /* For error messages and destructive actions */
+
+  /* --- Typography --- */
+  --gc-font-family-body: 'Nunito Sans', 'Roboto', Arial, sans-serif; /* Primary font for body text */
+  --gc-font-family-heading: 'Quicksand', sans-serif; /* Heading font */
+
+  
+}

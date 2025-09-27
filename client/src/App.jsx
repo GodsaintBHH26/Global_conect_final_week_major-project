@@ -1,9 +1,14 @@
-function App() {
+import React from 'react';
+import Header from './components/Header';
+
+const App = () => {
   return (
-    <>
-      <h1 className="bg-amber-300 text-black">App.jsx </h1>
-    </>
+    <div style={{ minHeight: '100vh', paddingTop: '56px', backgroundColor: '#f3f2ef' }}> 
+  <Header />
+      
+      
+    </div>
   );
-}
+};
 
 export default App;
