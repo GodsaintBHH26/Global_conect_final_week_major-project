@@ -2,15 +2,14 @@
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-// 🛑 REMOVE: import tailwindcss from '@tailwindcss/vite'; 
 
 export default defineConfig({
   plugins: [
     react({
-      // Ensure this matches your setup
-      jsxRuntime: 'classic' 
+      
+      jsxRuntime: 'automatic' ,
     }), 
-    // 🛑 REMOVE: tailwindcss(), 
+
   ],
-  // ... rest of your config ...
+  // ... rest of config ...
 });

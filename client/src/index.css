@@ -161,7 +161,7 @@ h1, h2, h3 {
     grid-template-columns: 1fr;
     padding-bottom: 2rem; }
 
-/* Medium Screens (MD/Tablet: 2-column structure: Left Sidebar + Feed) */
+/* Medium Screens  */
 @media (min-width: 768px) {
     .gc-grid-main {
        grid-template-columns: 1fr 2.5fr; 
@@ -171,7 +171,7 @@ h1, h2, h3 {
     }
 }
 
-/* Large Screens (LG/Desktop: 3-column structure) */
+/* Large Screens  */
 @media (min-width: 1024px) {
     .gc-grid-main {
         grid-template-columns: 1fr 2.5fr 1fr;
@@ -192,7 +192,6 @@ h1, h2, h3 {
     display: none;
 }
 
-/* Padding and Margin */
 .gc-p-3 { 
   padding: 0.75rem; }
 .gc-p-4
@@ -234,4 +233,91 @@ h1, h2, h3 {
     border: none;
     outline: none;
     background-color: transparent; 
+}
+
+
+
+.gc-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); 
+    z-index: 1000; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Container */
+.gc-modal-container {
+    background-color: var(--gc-color-white);
+    border-radius: 12px;
+    width: 90%; 
+    max-width: 552px; 
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.gc-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--gc-color-border);
+}
+
+
+.gc-modal-user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Modal Text Area */
+.gc-modal-textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 1.5rem;
+    border: none;
+    resize: none;
+    font-size: 1rem;
+    color: var(--gc-color-heading);
+    outline: none;
+}
+.gc-modal-textarea::placeholder {
+    color: var(--gc-color-text-muted);
+}
+
+
+.gc-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem 1rem 1.5rem;
+    border-top: 1px solid var(--gc-color-border);
+}
+
+.gc-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Post Button */
+.gc-btn-post {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 2rem;
+    color: var(--gc-color-white);
+    background-color: var(--gc-color-primary);
+    opacity: 0.5; 
+    cursor: not-allowed;
+    border: none;
+}
+.gc-btn-post:enabled {
+    opacity: 1;
+    cursor: pointer;
 }

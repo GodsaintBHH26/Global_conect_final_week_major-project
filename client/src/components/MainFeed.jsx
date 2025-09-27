@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Video, Calendar, Edit2, ThumbsUp, MessageSquare, Repeat2, Send } from 'lucide-react';
 import user from '../assets/user.png'
 import db from '../assets/mongo.png';
@@ -26,6 +26,7 @@ const dummyPosts = [
   },
 ];
 
+
 const PostCreator = ({ onStartPost }) => (
   <div className="gc-card gc-p-4" style={{ marginBottom: '1rem' }}>
     <div className="gc-flex gc-align-center gc-space-x-2" style={{ marginBottom: '0.75rem' }}>
@@ -34,30 +35,32 @@ const PostCreator = ({ onStartPost }) => (
         alt="User Avatar" 
         style={{ width: '48px', height: '48px', borderRadius: '50%' }}
       />
-      <button 
+       <button 
         className="gc-btn-base" 
         style={{ flexGrow: 1, textAlign: 'left', color: 'var(--gc-color-text-muted)', border: '1px solid var(--gc-color-border)', borderRadius: '9999px', padding: '0.75rem 1rem' }}
         onClick={onStartPost}
+       
       >
         Start a post
       </button>
     </div>
 
 
+    {/* Action buttons (Photo, Video, etc.) */}
     <div className="gc-flex gc-justify-between" style={{ color: 'var(--gc-color-text-muted)', fontSize: '0.875rem' }}>
-      <button className=" gc-btn-reset gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base" style={{ borderRadius: '4px' }}>
+      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset" style={{ borderRadius: '4px' }}>
         <Image size={20} style={{ color: 'rgb(59, 130, 246)' }} />
         <span style={{ display: 'none' }}>Photo</span>
       </button>
-      <button className=" gc-btn-reset gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base" style={{ borderRadius: '4px' }}>
+      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset" style={{ borderRadius: '4px' }}>
         <Video size={20} style={{ color: 'rgb(34, 197, 94)' }} />
         <span style={{ display: 'none' }}>Video</span>
       </button>
-      <button className=" gc-btn-reset gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base" style={{ borderRadius: '4px' }}>
+      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset" style={{ borderRadius: '4px' }}>
         <Calendar size={20} style={{ color: 'rgb(255, 165, 0)' }} />
         <span style={{ display: 'none' }}>Event</span>
       </button>
-      <button className=" gc-btn-reset gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-lg-hidden" style={{ borderRadius: '4px' }}>
+      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset gc-lg-hidden" style={{ borderRadius: '4px' }}>
         <Edit2 size={20} style={{ color: 'rgb(239, 68, 68)' }} />
         <span style={{ display: 'none' }}>Write article</span>
       </button>
@@ -66,12 +69,12 @@ const PostCreator = ({ onStartPost }) => (
 );
 
 const Post = ({ post }) => (
-  <div className="gc-card " style={{ marginBottom: '1rem', padding: 0 }}>
+  <div className="gc-card" style={{ marginBottom: '1rem', padding: 0 }}>
     {/* Header */}
     <div className="gc-flex gc-align-start gc-justify-between gc-p-4">
       <div className="gc-flex gc-align-center gc-space-x-2">
         <img src={post.user.avatar} alt={post.user.name} style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
-        <div > 
+        <div>
           <h3 style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--gc-color-heading)' }}>{post.user.name}</h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>{post.user.headline}</p>
           <p style={{ fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>{post.timestamp}</p>
@@ -91,7 +94,7 @@ const Post = ({ post }) => (
     )}
 
     {/* Footer Metrics */}
-    <div className="gc-flex gc-justify-between gc-align-center gc-btn-reset" style={{ padding: '0.5rem 1rem', borderTop: '1px solid var(--gc-color-border)', fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>
+    <div className="gc-flex gc-justify-between gc-align-center" style={{ padding: '0.5rem 1rem', borderTop: '1px solid var(--gc-color-border)', fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>
       <span>{post.likes} Likes</span>
       <span>{post.comments} Comments</span>
     </div>
@@ -106,11 +109,11 @@ const Post = ({ post }) => (
         <MessageSquare size={18} />
         <span style={{ fontSize: '0.875rem' }}>Comment</span>
       </button>
-      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-lg-hidden gc-btn-reset" style={{ borderRadius: '4px' }}>
+      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset gc-lg-hidden" style={{ borderRadius: '4px' }}>
         <Repeat2 size={18} />
         <span style={{ fontSize: '0.875rem' }}>Repost</span>
       </button>
-      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-lg-hidden gc-btn-reset" style={{ borderRadius: '4px' }}>
+      <button className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset gc-lg-hidden" style={{ borderRadius: '4px' }}>
         <Send size={18} />
         <span style={{ fontSize: '0.875rem' }}>Send</span>
       </button>
@@ -121,11 +124,11 @@ const Post = ({ post }) => (
 const MainFeed = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
 
- return (
+  return (
     <div>
       <PostCreator onStartPost={() => setIsModalOpen(true)} />
       
-     
+      {/* Divider */}
       <div style={{ position: 'relative', margin: '0.75rem 0' }}>
         <hr style={{ borderColor: 'var(--gc-color-border)' }} />
         <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#f3f2ef', padding: '0 0.5rem', fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>
@@ -141,5 +144,4 @@ const MainFeed = () => {
     </div>
   );
 };
-
 export default MainFeed;
