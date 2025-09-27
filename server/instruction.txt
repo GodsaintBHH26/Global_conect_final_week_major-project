@@ -11,3 +11,16 @@ So all the other details in the schema needs to be added separately. And that is
 Account creation - /api/auth/register
 User Login - /api/auth/login
 Adding/updating user details - /api/user/add-details
+
+**By Akriti Sharma**
+I've created utils folder where I create a file "generateToken" in oder to generate a jsonWebToken.
+After that I've install dependencies like multer,socket.io , cloudinary and nodemon
+
+I've futher created models like post,message and Job...
+
+then create a file "multer.js" in utils folder...
+
+update the userController...
+
+create postController....
+
