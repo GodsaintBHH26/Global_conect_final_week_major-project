@@ -1,4 +1,3 @@
-// src/components/SuggestedConnectionCard.jsx
 
 import React from 'react';
 import user1 from '../assets/user.png';
@@ -8,7 +7,7 @@ const SuggestedConnectionCard = ({ user }) => {
     return (
         <div className="gc-card" style={{ padding: '0', textAlign: 'center', overflow: 'hidden', height: '100%', position: 'relative' , backgroundColor:'#ececec50' }}>
             
-            {/* Close/Dismiss Button */}
+           
             <button 
                 className="gc-btn-reset" 
                 style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', color: 'var(--gc-color-text-muted)' }}
@@ -17,7 +16,7 @@ const SuggestedConnectionCard = ({ user }) => {
                 <X size={18} />
             </button>
 
-            {/* Profile Image/Content */}
+           
             <div style={{ padding: '1rem' }}>
                 <img 
                     src={user1}

@@ -1,9 +1,8 @@
-// src/components/NetworkSidebar.jsx
 
 import React from 'react';
 import { Users, Briefcase, FileText, ChevronRight } from 'lucide-react';
 
-// --- Dummy Counts ---
+// --- Dummy 
 const dummyCounts = {
     invitations: 5,
     contacts: 152,

@@ -1,11 +1,10 @@
-// src/pages/MyNetworkPage.jsx
 
 import React from 'react';
 import Header from '../components/Header';
-import NetworkSidebar from '../components/NetworkSidebar'; // Will create this next
-import SuggestedConnectionCard from '../components/SuggestedConnectionCard'; // Will create this next
+import NetworkSidebar from '../components/NetworkSidebar'; 
+import SuggestedConnectionCard from '../components/SuggestedConnectionCard'; 
 import PLACEHOLDER_USER_AVATAR_URL from '../assets/user.png' ;
-// --- Dummy Data for Suggestions ---
+// --- Dummy 
 const suggestedUsers = [
     { id: 1, name: "Arjun Sharma", headline: "Full-Stack Developer | Node.js", avatar: "PLACEHOLDER_USER_AVATAR_URL" },
     { id: 2, name: "Priya Singh", headline: "UI/UX Designer at WebCo", avatar: "PLACEHOLDER_USER_AVATAR_URL" },
@@ -24,35 +23,33 @@ const MyNetworkPage = () => {
             
             <main className="container-3col" style={{ 
                 padding: '1.5rem 0',
-                display: 'flex', // Use Flexbox for outer structure
+                display: 'flex', 
                 gap: '1.5rem' 
             }}>
                 
-                {/* Column 1: Network Sidebar (FIXED POSITION) */}
+                {/* = Network Sidebar] */}
                 <div style={{ 
-                    position: 'fixed', // <-- CRUCIAL FIX: Lock to viewport
-                       width: '240px',    // Explicit width for the fixed sidebar
-                    height: 'calc(100vh - 80px)', // Allow content to scroll inside if long
-                    overflowY: 'auto', // Allow internal scrolling if content is too long
+                    position: 'fixed', 
+                       width: '240px',    
+                    height: 'calc(100vh - 80px)', 
+                    overflowY: 'auto', 
                     paddingBottom: '1rem',
-                    zIndex: 10 // Keep it above main content
+                    zIndex: 10 
                 }}>
                     <NetworkSidebar />
                 </div>
 
-                {/* Column 2: Suggested Connections Grid (MAIN SCROLLABLE CONTENT) */}
+                {/* Suggested Connections Grid */}
                 <div style={{ 
-                    // Push this column over by the width of the fixed sidebar plus the gap
-                    marginLeft: '255px', // 240px width + 15px gap (approx)
-                    flexGrow: 1, // Allow it to take up the rest of the space
-                    maxWidth: '852px', // Keep content within reasonable bounds
+                    marginLeft: '255px', 
+                    flexGrow: 1, 
+                    maxWidth: '852px', 
                 }}>
                     <div className="gc-card" style={{ padding: '1.5rem' }}> 
                         <h2 style={{ marginBottom: '1rem', fontSize: '1.25rem', fontWeight: 600, color: 'var(--gc-color-heading)' }}>
                             People you may know
                         </h2>
                         
-                        {/* Grid for Suggestion Cards */}
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
                             {suggestedUsers.map(user => (
                                 <SuggestedConnectionCard key={user.id} user={user} />
