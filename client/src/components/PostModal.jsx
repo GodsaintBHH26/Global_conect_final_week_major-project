@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
 import { X, Globe, User, Image, Video, Calendar, Clock, Smile, Plus, Wand2 } from 'lucide-react';
-
+import user from '../assets/user.png';
 // --- Placeholder Data ---
 const currentUser = {
-    name: "ProNet User",
-    avatar: "https://placehold.co/40x40/54595F/FFFFFF?text=CU",
+    name: "User",
+    avatar: user ,
 };
 
 const PostModal = ({ onClose }) => {
-    // State to track if the textarea has content (to enable the Post button)
     const [postContent, setPostContent] = useState('');
     
-    // Determines if the Post button is enabled
     const isPostButtonEnabled = postContent.trim().length > 0;
 
     return (
         <div className="gc-modal-backdrop" onClick={onClose}>
             <div 
                 className="gc-modal-container" 
-                onClick={(e) => e.stopPropagation()} // Prevents clicking the modal from closing the backdrop
-            >
+                onClick={(e) => e.stopPropagation()}>
                 
                 {/* Modal Header */}
                 <div className="gc-modal-header">
@@ -33,16 +30,15 @@ const PostModal = ({ onClose }) => {
                             <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--gc-color-heading)' }}>
                                 {currentUser.name}
                             </h3>
-                            {/* Visibility Selector */}
-                            <button style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.5rem', border: '1px solid var(--gc-color-border)', borderRadius: '4px', marginTop: '0.25rem', fontSize: '0.875rem', color: 'var(--gc-color-text)' }}>
+                             <button style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.5rem', border: '1px solid var(--gc-color-border)', borderRadius: '4px', marginTop: '0.25rem', fontSize: '0.875rem', color: 'var(--gc-color-text)' }}>
                                 <Globe size={14} />
                                 Post to Anyone
                             </button>
                         </div>
                     </div>
                     
-                    {/* Close Button */}
-                    <button onClick={onClose} style={{ color: 'var(--gc-color-text-muted)' }}>
+                   
+                    <button onClick={onClose} style={{ color: 'var(--gc-color-text-muted)', border:'none' , backgroundColor:'none' , fontWeight:'900' }} className='gc-btn-reset'>
                         <X size={24} />
                     </button>
                 </div>
@@ -66,17 +62,15 @@ const PostModal = ({ onClose }) => {
                 </div>
 
 
-                {/* Modal Footer */}
+               
                 <div className="gc-modal-footer">
                     
                     {/* Left Side Icons */}
                     <div className="gc-modal-actions">
-                        {/* Image, Video, Event icons (Styled for clickability) */}
                         <Image size={20} style={{ color: 'rgb(59, 130, 246)', cursor: 'pointer' }} />
                         <Video size={20} style={{ color: 'rgb(34, 197, 94)', cursor: 'pointer' }} />
                         <Calendar size={20} style={{ color: 'rgb(255, 165, 0)', cursor: 'pointer' }} />
                         
-                        {/* More icons/actions */}
                         <button style={{ color: 'var(--gc-color-text-muted)' }}>
                             <Plus size={20} />
                         </button>
