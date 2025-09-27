@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { X, Globe, User, Image, Video, Calendar, Clock, Smile, Plus, Wand2 } from 'lucide-react';
-import user from '../assets/user.png';
-// --- Placeholder Data ---
+import user from '../assets/user.png'; 
+//dummydata
 const currentUser = {
     name: "User",
-    avatar: user ,
+    avatar: user,
 };
 
 const PostModal = ({ onClose }) => {
@@ -12,6 +12,19 @@ const PostModal = ({ onClose }) => {
     
     const isPostButtonEnabled = postContent.trim().length > 0;
 
+    const handleSubmit = () => {
+        if (!isPostButtonEnabled) return;
+        
+        console.log("Post data captured:", {
+            user: currentUser.name,
+            content: postContent,
+        });
+
+        alert("Post data captured successfully! Ready for backend submission.");
+
+        setPostContent('');
+        onClose();
+    };
     return (
         <div className="gc-modal-backdrop" onClick={onClose}>
             <div 
@@ -30,20 +43,23 @@ const PostModal = ({ onClose }) => {
                             <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--gc-color-heading)' }}>
                                 {currentUser.name}
                             </h3>
-                             <button style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.5rem', border: '1px solid var(--gc-color-border)', borderRadius: '4px', marginTop: '0.25rem', fontSize: '0.875rem', color: 'var(--gc-color-text)' }}>
+                            {/* Visibility Selector Button */}
+                            <button style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.5rem', border: '1px solid var(--gc-color-border)', borderRadius: '4px', marginTop: '0.25rem', fontSize: '0.875rem', color: 'var(--gc-color-text)' }}>
                                 <Globe size={14} />
                                 Post to Anyone
                             </button>
                         </div>
                     </div>
                     
-                   
-                    <button onClick={onClose} style={{ color: 'var(--gc-color-text-muted)', border:'none' , backgroundColor:'none' , fontWeight:'900' }} className='gc-btn-reset'>
+                    <button 
+                        onClick={onClose} 
+                        className='gc-btn-reset' 
+                        style={{ color: 'var(--gc-color-text-muted)', fontWeight:'900' }}
+                    >
                         <X size={24} />
                     </button>
                 </div>
 
-                {/* Modal Body - Text Area */}
                 <div style={{ padding: '0 1.5rem' }}>
                     <textarea
                         className="gc-modal-textarea"
@@ -53,7 +69,6 @@ const PostModal = ({ onClose }) => {
                     />
                 </div>
                 
-                {/* AI Rewrite Link */}
                 <div style={{ padding: '0 0 0.5rem 1.5rem' }}>
                     <button className="gc-link-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.875rem' }}>
                         <Wand2 size={16} />
@@ -62,7 +77,6 @@ const PostModal = ({ onClose }) => {
                 </div>
 
 
-               
                 <div className="gc-modal-footer">
                     
                     {/* Left Side Icons */}
@@ -71,7 +85,7 @@ const PostModal = ({ onClose }) => {
                         <Video size={20} style={{ color: 'rgb(34, 197, 94)', cursor: 'pointer' }} />
                         <Calendar size={20} style={{ color: 'rgb(255, 165, 0)', cursor: 'pointer' }} />
                         
-                        <button style={{ color: 'var(--gc-color-text-muted)' }}>
+                        <button className='gc-btn-reset' style={{ color: 'var(--gc-color-text-muted)' }}>
                             <Plus size={20} />
                         </button>
                     </div>
@@ -84,10 +98,7 @@ const PostModal = ({ onClose }) => {
                         <button 
                             className="gc-btn-post" 
                             disabled={!isPostButtonEnabled}
-                            onClick={() => {
-                                alert(`Posting: "${postContent}"`);
-                                onClose();
-                            }}
+                            onClick={handleSubmit} 
                         >
                             Post
                         </button>
