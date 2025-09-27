@@ -3,6 +3,7 @@ import { Image, Video, Calendar, Edit2, ThumbsUp, MessageSquare, Repeat2, Send }
 import user from '../assets/user.png'
 import db from '../assets/mongo.png';
 import globalc from '../assets/globalconn.jpg';
+import PostModal from './PostModal';
 // --- Dummy Data ---
 const dummyPosts = [
   {
@@ -25,7 +26,7 @@ const dummyPosts = [
   },
 ];
 
-const PostCreator = () => (
+const PostCreator = ({ onStartPost }) => (
   <div className="gc-card gc-p-4" style={{ marginBottom: '1rem' }}>
     <div className="gc-flex gc-align-center gc-space-x-2" style={{ marginBottom: '0.75rem' }}>
       <img 
@@ -36,10 +37,12 @@ const PostCreator = () => (
       <button 
         className="gc-btn-base" 
         style={{ flexGrow: 1, textAlign: 'left', color: 'var(--gc-color-text-muted)', border: '1px solid var(--gc-color-border)', borderRadius: '9999px', padding: '0.75rem 1rem' }}
+        onClick={onStartPost}
       >
         Start a post
       </button>
     </div>
+
 
     <div className="gc-flex gc-justify-between" style={{ color: 'var(--gc-color-text-muted)', fontSize: '0.875rem' }}>
       <button className=" gc-btn-reset gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base" style={{ borderRadius: '4px' }}>
@@ -116,11 +119,13 @@ const Post = ({ post }) => (
 );
 
 const MainFeed = () => {
-  return (
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+
+ return (
     <div>
-      <PostCreator />
+      <PostCreator onStartPost={() => setIsModalOpen(true)} />
       
-      {/* Divider */}
+     
       <div style={{ position: 'relative', margin: '0.75rem 0' }}>
         <hr style={{ borderColor: 'var(--gc-color-border)' }} />
         <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#f3f2ef', padding: '0 0.5rem', fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>
@@ -131,6 +136,8 @@ const MainFeed = () => {
       {dummyPosts.map(post => (
         <Post key={post.id} post={post} />
       ))}
+      
+      {isModalOpen && <PostModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
