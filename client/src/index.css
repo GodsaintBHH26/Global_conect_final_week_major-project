@@ -141,10 +141,9 @@ h1, h2, h3 {
 
 .gc-card {
     background-color: var(--gc-color-white);
-    border-radius: 8px; /* 0.5rem */
+    border-radius: 8px; 
     border: 1px solid var(--gc-color-border);
-    margin-bottom: 8px; /* space-y-2 equivalent between components */
-}
+    margin-bottom: 8px;}
 
 /* Base Flex Properties */
 .gc-flex { display: flex; }
@@ -157,19 +156,16 @@ h1, h2, h3 {
 
 .gc-grid-main {
     display: grid;
-    gap: 1.5rem; /* gap-x-6 */
+    gap: 1.5rem; 
     /* Default: Single column for mobile */
     grid-template-columns: 1fr;
-    padding-bottom: 2rem; /* Add padding at the bottom */
-}
+    padding-bottom: 2rem; }
 
 /* Medium Screens (MD/Tablet: 2-column structure: Left Sidebar + Feed) */
 @media (min-width: 768px) {
     .gc-grid-main {
-        /* Define 3 logical columns (1fr | 2.5fr | 1fr), but only two are shown */
-        grid-template-columns: 1fr 2.5fr; 
+       grid-template-columns: 1fr 2.5fr; 
     }
-    /* Hide the Right Sidebar on Medium Screens */
     .gc-col-right {
         display: none;
     }
@@ -178,28 +174,21 @@ h1, h2, h3 {
 /* Large Screens (LG/Desktop: 3-column structure) */
 @media (min-width: 1024px) {
     .gc-grid-main {
-        /* 1fr (Left) | 2.5fr (Feed) | 1fr (Right) */
         grid-template-columns: 1fr 2.5fr 1fr;
     }
     .gc-col-left {
-        display: block !important; /* Ensure Left Sidebar is visible */
-    }
+        display: block !important; }
     .gc-col-right {
-        display: block !important; /* Ensure Right Sidebar is visible */
-    }
+        display: block !important;   }
 }
 
-/* Component Column Placement */
 .gc-col-left {
-    /* Hidden by default (for mobile) */
     display: none; 
 }
 .gc-col-middle {
-    /* Always visible, spans 1 column */
     grid-column: span 1; 
 }
 .gc-col-right {
-    /* Hidden by default */
     display: none;
 }
 
@@ -236,9 +225,13 @@ h1, h2, h3 {
    background-color: #6a1aab; }
 
 .gc-sticky-sidebar {
-    /* Set position to sticky */
+    
     position: sticky;
-    /* Offset by 56px (header height) plus 16px margin/padding (approx 72px total) */
-    top: 72px; 
-    /* The sidebar must have a defined height or must fit its content */
+     top: 72px;  }
+
+.gc-btn-reset {
+  
+    border: none;
+    outline: none;
+    background-color: transparent; 
 }

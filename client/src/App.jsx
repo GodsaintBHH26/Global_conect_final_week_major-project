@@ -13,21 +13,21 @@ const App = () => {
       <main className="container-3col">
         <div className="gc-grid-main">
           
-          {/* Column 1: Left Sidebar (STICKY) */}
+          {/* Column 1: Left Sidebar*/}
           <div className="gc-col-left">
-             <div className="gc-sticky-sidebar"> {/* <-- NEW STICKY CONTAINER */}
+             <div className="gc-sticky-sidebar"> 
                 <LeftSidebar />
              </div>
           </div>
 
-          {/* Column 2: Main Feed (SCROLLS NORMALLY) */}
+          {/* Column 2: Main Feed */}
           <div className="gc-col-middle"> 
             <MainFeed />
           </div>
           
-          {/* Column 3: Right Sidebar (STICKY) */}
+          {/* Column 3: Right Sidebar  */}
           <div className="gc-col-right">
-             <div className="gc-sticky-sidebar"> {/* <-- NEW STICKY CONTAINER */}
+             <div className="gc-sticky-sidebar"> 
                 <RightSidebar />
              </div>
           </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Search, Home, Users, Briefcase, MessageSquare, Bell, User, LayoutGrid } from 'lucide-react';
 
 const Header = () => {
-  // Data for the main navigation icons
+  
   const navItems = [
     { Icon: Home, label: 'Home', isActive: true },
     { Icon: Users, label: 'My Network', isActive: false },
@@ -23,20 +23,18 @@ const Header = () => {
   );
 
   return (
-    // Outer Header Container - using gc-header class
     <header className="gc-header">
       
-      {/* Container for Centering and Max-Width */}
       <div className="container-3col gc-header-content">
 
-        {/* 1. Left Section: Logo/Name and Search Bar */}
+        {/* 1. Left Section: Logo and Search  */}
         <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-          {/* Global_Connect Logo/Name */}
+          {/*  Logo */}
           <a href="/" style={{textDecoration:'none' , marginRight: '1rem', fontWeight: 800, fontSize: '1.5rem', fontFamily: 'var(--gc-font-family-heading)', color: 'var(--gc-color-primary)' }} title="Global_Connect Home">
             G<span style={{ color: 'var(--gc-color-heading)' }}>C</span>
           </a>
           
-          {/* Search Bar - Note: The plain CSS media query controls visibility */}
+          {/* Search Bar */}
           <div className="gc-search-container">
             <div className="gc-search-input-wrapper">
               <input
@@ -60,9 +58,9 @@ const Header = () => {
             <NavItem key={item.label} {...item} />
           ))}
           
-          {/* Profile/Me link */}
+          {/* Profile link */}
           <div className="gc-nav-item" style={{textDecoration:'none'  }}>
-            {/* User Profile Placeholder */}
+        
             <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#9ca3af', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               <User size={16} style={{ color: '#ffffff' }} strokeWidth={2.5}/>
             </div>

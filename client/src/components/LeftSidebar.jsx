@@ -1,15 +1,17 @@
 import React from 'react';
 import { Bookmark, Users, Grid } from 'lucide-react';
+import background from '../assets/bg.jpg';
+import userP from '../assets/user.png';
 
 // --- Dummy Data ---
 const dummyUser = {
   name: "ProNet User",
   headline: "Student | Full-Stack Developer | React & Node",
   location: "India",
-  profileViews: 156, // Generic number
-  postImpressions: 489, // Generic number
-  bannerUrl: "https://placehold.co/400x100/A367E9/FFFFFF?text=PRO+NET", // Generic Banner
-  avatarUrl: "https://placehold.co/64x64/54595F/FFFFFF?text=CU", // Generic Avatar
+  profileViews: 156, 
+  postImpressions: 489,
+  bannerUrl:background, 
+  avatarUrl: userP,
 };
 
 
@@ -23,7 +25,6 @@ const LeftSidebar = () => {
         {/* Banner and Avatar */}
         <div style={{ position: 'relative' }}>
           <img src={dummyUser.bannerUrl} alt="User Banner" style={{ width: '100%', height: '4rem', objectFit: 'cover' }} />
-          {/* Avatar position corrected: Pushed DOWN by 50% relative to its size */}
           <img 
             src={dummyUser.avatarUrl} 
             alt={dummyUser.name} 
@@ -34,10 +35,9 @@ const LeftSidebar = () => {
                 border: '2px solid white', 
                 position: 'absolute', 
                 left: '50%', 
-                transform: 'translate(-50%, 0)', /* Removed 50% vertical shift */
-                bottom: '-2rem', /* Pushed down exactly 2rem (half the avatar size) */
-                zIndex: 10 /* Ensure it's above other elements */
-            }}
+                transform: 'translate(-50%, 0)', 
+                bottom: '-2rem', 
+                zIndex: 10  }}
           />
         </div>
         {/* Name and Details */}
