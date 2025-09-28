@@ -1,6 +1,7 @@
 **PLEASE USE THIS FILE WRITE WHERE WE STAND AND ALSO AS A FOOTNOTE FOR OTHERS**
 
 -----------------|27-09-25 8:20AM|---------------------
+**Arijit Kabiraj**
 * Till now I have added the basic authentication along with the user schema and also a function to update the user details.
 
 **NOTE**
@@ -31,3 +32,17 @@ create postController....
 
 **NOTE**
 please read and try to understand the already written code in the file you're trying to work on.
+
+------------------------|28-09-25 4:05PM|--------------------------
+**Arijit Kabiraj**
+* Made some changes to the schema (most of them) 
+* setUP a few routes 
+
+**NOTE**
+Currently available routes - 
+POST api/auth/login
+POST api/auth/register
+GET api/user/:id 
+PUT api/user/add-details
+GET api/messages/:senderId/:receiverId
+POST api/messages/
