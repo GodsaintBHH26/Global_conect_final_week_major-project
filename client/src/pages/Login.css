@@ -1,0 +1,335 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    text-decoration: none;
+
+}
+
+.wrapper{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 10%;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+}
+
+.wrapper header{
+    position:absolute;
+    top: 0;
+    right: 0; 
+    left: 0; 
+    padding: 1.3rem 10%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    /* box-shadow: 0px 2px 4px #ddd; */
+}
+
+.wrapper header .logo{
+    width: fit-content;
+    height: 38px;
+    overflow: hidden;
+}
+
+.wrapper header .logo img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    
+}
+
+.navigation{
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.navigation .btn-home{
+   padding: 0.5rem 1.6rem;
+   min-width: 140px;
+   border: none;
+   border-radius: 2rem;
+   background-color:transparent;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   font-size: 15px;
+   font-weight: 500;
+   color: #444;
+   text-align: center;
+   cursor: pointer;
+}
+
+.navigation .btn-home:hover{
+   background-color: #fefefe;
+}
+
+.navigation .btn-join{
+   padding: 0.5rem 1.6rem;
+   min-width: 140px;
+   border: 2px solid transparent;
+   border-radius: 1rem;
+   background-color: #2867B2;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   font-size: 15px;
+   font-weight: 500;
+   color: #fff;
+   text-align: center;
+   cursor: pointer;
+}
+
+.navigation .btn-join:hover{
+   border: 2px solid #023b85;
+   background-color: #045bcf;
+  
+}
+.login-box{
+    padding: 0rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: rem;
+    margin-top: 3rem;
+}
+
+.login-box .login-image{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.login-box .login-image .image{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+}
+.login-box .login-image .image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.login-box .login-form{
+    width: 100%;
+    background-color: #fff;
+
+}
+.login-box .login-form .box{
+    width: fit-content;
+    max-width: 569px;
+    padding: 0rem 1rem;
+    padding-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: 2px 1px 4px #ddd;
+    min-height: 450px;
+    border-radius: 5px;
+}
+
+.login-box .login-form .title{
+  padding-bottom: 1rem ; 
+}
+
+.login-box .login-form h1{
+  padding: 1rem 0rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 54px;
+  max-width: 90%;
+  color: #a10202;
+
+}
+
+.login-box .login-form form{
+padding: 1rem;
+display: flex;
+flex-direction: column;
+gap: 1rem;
+padding: 1rem 0rem;
+  
+}
+
+.login-box .login-form form .input-box{
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+  
+}
+
+.login-box .login-form form .input-box label{
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+font: 14px;
+font-weight: 400;
+line-height: 16px;
+color: #555;
+text-transform: capitalize;
+  
+}
+
+.login-box .login-form form .input-box input{
+ padding: 0.71rem 0.4rem;
+ font-size: 16px;
+ font-weight: 700;
+ color: #111;
+ border: 1px solid #777;
+ background-color: #fff;
+ border-radius: 0.25rem;
+  
+}
+
+.login-box .login-form form .btn-box{
+ padding: 0.71rem 0rem;
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+  
+}
+
+.login-box .login-form form .btn-box input{
+ padding: 0.8rem 0.2rem;
+ border: 2px solid transparent;
+ background-color: #000;
+ font-size: 16px;
+ font-weight: 600;
+ color: #fff;
+ border-radius: 0.25rem;
+ text-transform: capitalize;
+ cursor: pointer;
+}
+
+.login-box .login-form form .btn-box input:hover{
+  border: 2px solid #000;
+  background-color: #282626;
+}
+
+.login-form .forgot{
+    width: 100%;
+    text-align: left;
+    padding: 1.25rem 0rem;
+}
+
+.login-form .forgot a{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2867B2;
+    text-transform: capitalize;
+}
+
+.login-form .forgot a:hover{
+    color: #011557;
+}
+
+.login-form .or{
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+
+}
+
+.login-form .or::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translate(0, -50%);
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-index: 1;
+
+}
+
+.login-form .or span{
+   position:relative ;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   font-size: 16px;
+   font-weight: 300;
+   color: #555;
+   width: fit-content;
+   padding: 0rem 0.5rem;
+   z-index: 100;
+   background-color: #fff;
+}
+
+.login-box .login-form  .btn-box-alt{
+ display: flex;
+ flex-direction: column;
+ padding: 0px 1rem;
+ 
+}
+
+.login-box .login-form .btn-box-alt .btn-join{
+ padding: 0.7rem 0.2rem;
+ border: 2px solid transparent;
+ background-color: #2867B2;
+ font-size: 16px;
+ font-weight: 400;
+ color: #fff;
+ border-radius: 0.27rem;
+ text-transform: capitalize;
+ cursor: pointer;
+ letter-spacing: 3px;
+}
+
+.login-box .login-form .btn-box-alt .btn-join{
+  border: 1px solid #01386a;
+  background-color: #2867B2;
+}
+
+
+/* ===== Mobile & Tablet (max-width: 768px) ===== */
+@media (max-width: 768px) {
+  /* Wrapper padding adjust */
+  .wrapper {
+    padding: 2rem 5%;
+    justify-content: flex-start;
+  }
+
+  /* Header stack vertically */
+  .wrapper header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 5%;
+  }
+
+  /* Navigation responsive */
+  .navigation {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  /* Login box → stack vertically */
+  .login-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+  }
+
+  .login-box .login-form {
+    order: 1; 
+  }
+
+  .login-box .login-image {
+    order: 2; 
+    margin-top: 1rem;
+  }
+
+  .login-box .login-image img {
+    padding: 1rem; 
+  }
+}
