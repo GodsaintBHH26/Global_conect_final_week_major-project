@@ -8,11 +8,11 @@ import User from "../models/user.js";
 export const createPost = async (req, res) => {
   try {
     const { content } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const image = req.file ? req.file.path : undefined; // Cloudinary URL
     const post = await Post.create({ userId: req.user._id, content, image });
     res.status(201).json(post);
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
