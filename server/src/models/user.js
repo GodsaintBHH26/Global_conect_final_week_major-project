@@ -24,9 +24,9 @@ const userSchema = new mongoose.Schema(
       },
     ],
     skills: [{ type: String }],
-    connections: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    connectionRequests: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    savedJobs: { type: mongoose.Schema.Types.ObjectId, ref: "Job" },
+    connections: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    connectionRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
   },
   { timestamps: true }
 );
