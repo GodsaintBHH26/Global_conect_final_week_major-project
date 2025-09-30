@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+ 
+ import React, { useState } from 'react';
 import { Image, Video, Calendar, Edit2, ThumbsUp, MessageSquare, Repeat2, Send } from 'lucide-react';
 import user from '../assets/user.png'
 import db from '../assets/mongo.png';
@@ -38,14 +39,14 @@ const PostCreator = ({ onStartPost }) => (
        <button 
         className="gc-btn-base" 
         style={{ flexGrow: 1, textAlign: 'left', color: 'var(--gc-color-text-muted)', border: '1px solid var(--gc-color-border)', borderRadius: '9999px', padding: '0.75rem 1rem' }}
-
         onClick={onStartPost}
+       
+
 
       >
         Start a post
       </button>
     </div>
-
 
 
 
@@ -124,38 +125,27 @@ const Post = ({ post }) => (
     </div>
   </div>
 );
-
 const MainFeed = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  return (
+    <div>
+      <PostCreator onStartPost={() => setIsModalOpen(true)} />
+      
+      {/* Divider */}
+      <div style={{ position: 'relative', margin: '0.75rem 0' }}>
+        <hr style={{ borderColor: 'var(--gc-color-border)' }} />
+        <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#f3f2ef', padding: '0 0.5rem', fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>
+          Sort by: Top
+        </span>
+      </div>
 
- return (
-    <div>
-      <PostCreator onStartPost={() => setIsModalOpen(true)} />
-      
-     
-      <div style={{ position: 'relative', margin: '0.75rem 0' }}>
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  return (
-    <div>
-      <PostCreator onStartPost={() => setIsModalOpen(true)} />
-      
-      {/* Divider */}
-      <div style={{  position: 'relative', margin: '0.75rem 0' }}>
-
-        <hr style={{ borderColor: 'var(--gc-color-border)' }} />
-        <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#f3f2ef', padding: '0 0.5rem', fontSize: '0.75rem', color: 'var(--gc-color-text-muted)' }}>
-          Sort by: Top
-        </span>
-      </div>
-
-      {dummyPosts.map(post => (
-        <Post key={post.id} post={post} />
-      ))}
-      
-      {isModalOpen && <PostModal onClose={() => setIsModalOpen(false)} />}
-    </div>
-  );
+      {dummyPosts.map(post => (
+        <Post key={post.id} post={post} />
+      ))}
+      
+      {isModalOpen && <PostModal onClose={() => setIsModalOpen(false)} />}
+    </div>
+  );
 };
 export default MainFeed;

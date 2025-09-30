@@ -6,25 +6,46 @@ const ExperienceSection = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [formData, setFormData] = useState({ role: "", company: "", from: "", to: "", description: "" });
 
+  const resetForm = () => setFormData({ role: "", company: "", from: "", to: "", description: "" });
+
   const handleEdit = (index) => {
     setEditIndex(index);
     setFormData(user.experience[index]);
   };
 
-  const handleSave = () => {
+  const handleAdd = () => {
+    setEditIndex(user.experience.length); // new index
+    resetForm();
+  };
+
+  const handleDelete = (index) => {
     const updatedExperience = [...user.experience];
-    updatedExperience[editIndex] = formData;
+    updatedExperience.splice(index, 1);
+    setUser({ ...user, experience: updatedExperience });
+  };
+
+  const handleSave = () => {
+    let updatedExperience = [...user.experience];
+    if (editIndex < user.experience.length) {
+      // update existing
+      updatedExperience[editIndex] = formData;
+    } else {
+      // add new
+      updatedExperience.push(formData);
+    }
     setUser({ ...user, experience: updatedExperience });
     setEditIndex(null);
+    resetForm();
   };
 
   const handleCancel = () => {
     setEditIndex(null);
-    setFormData({ role: "", company: "", from: "", to: "", description: "" });
+    resetForm();
   };
 
   return (
-    <div className="mt-6 p-4 rounded-lg bg-[var(--gc-color-white)]"
+    <div
+      className="mt-6 p-4 rounded-lg bg-[var(--gc-color-white)]"
       style={{ border: "1px solid var(--gc-color-border)" }}
     >
       <h3 className="text-lg font-semibold text-[var(--gc-color-heading)] mb-3">
@@ -108,21 +129,48 @@ const ExperienceSection = () => {
                 {exp.from} - {exp.to}
               </p>
               <p className="mt-1 text-sm text-[var(--gc-color-text-muted)]">{exp.description}</p>
-              <button
-                onClick={() => handleEdit(index)}
-                className="mt-2 px-3 py-1 text-sm rounded"
-                style={{
-                  backgroundColor: "var(--gc-color-white)",
-                  color: "var(--gc-color-primary)",
-                  border: "1px solid var(--gc-color-border)",
-                }}
-              >
-                Edit
-              </button>
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={() => handleEdit(index)}
+                  className="px-3 py-1 text-sm rounded"
+                  style={{
+                    backgroundColor: "var(--gc-color-white)",
+                    color: "var(--gc-color-primary)",
+                    border: "1px solid var(--gc-color-border)",
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="px-3 py-1 text-sm rounded"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "red",
+                    border: "1px solid var(--gc-color-border)",
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </>
           )}
         </div>
       ))}
+
+      {/* Add new experience button */}
+      {editIndex === null && (
+        <button
+          onClick={handleAdd}
+          className="mt-2 px-4 py-2 text-sm rounded"
+          style={{
+            backgroundColor: "var(--gc-color-primary)",
+            color: "var(--gc-color-white)",
+          }}
+        >
+          + Add Experience
+        </button>
+      )}
     </div>
   );
 };

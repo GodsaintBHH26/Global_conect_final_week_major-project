@@ -3,7 +3,7 @@ import Header from './components/Header';
 import LeftSidebar from './components/LeftSidebar';
 import MainFeed from './components/MainFeed';
 import RightSidebar from './components/RightSidebar';
-
+import ProfilePage from './pages/profile/ProfilePage'; // 👈 import profile page
 
 const App = () => {
   return (
@@ -20,12 +20,13 @@ const App = () => {
              </div>
           </div>
 
-          {/* Column 2: Main Feed */}
+          {/* Column 2: Main Feed / Profile */}
           <div className="gc-col-middle"> 
-            <MainFeed />
+            {/* <MainFeed />   👈 comment this out if you only want Profile */}
+            <ProfilePage />   {/* 👈 show profile page here */}
           </div>
           
-          {/* Column 3: Right Sidebar  */}
+          {/* Column 3: Right Sidebar */}
           <div className="gc-col-right">
              <div className="gc-sticky-sidebar"> 
                 <RightSidebar />
