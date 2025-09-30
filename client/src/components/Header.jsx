@@ -6,12 +6,13 @@ const Header = () => {
   const navItems = [
     { Icon: Home, label: 'Home', to: '/', isActive: true },
     { Icon: Users, label: 'My Network', to: '/mynetwork', isActive: false },
-    { Icon: Briefcase, label: 'Jobs', to: '/jobs', isActive: false }, // Use /jobs path
+    { Icon: Briefcase, label: 'Jobs', to: '/jobs', isActive: false }, 
     { Icon: MessageSquare, label: 'Messaging', to: '/messaging', isActive: false },
     { Icon: Bell, label: 'Notifications', to: '/notifications', isActive: false },
   ];
 
-  const NavItem = ({ Icon, label, to, isActive = false }) => ( 
+const NavItem = ({ Icon, label, to, isActive = false }) => (
+
     <Link
       to={to} 
       className={`gc-nav-item ${isActive ? 'gc-nav-item-active' : ''}`}

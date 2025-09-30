@@ -6,6 +6,9 @@ import HomePage from './pages/HomePage';
 import JobsPage from './pages/JobsPage'; 
 import MyNetworkPage from './pages/MyNetworkPage'; 
 
+import MessagingPage from './pages/MessagingPage';
+import NotificationsPage from './pages/NotificationsPage'; 
+
 const App = () => {
   return (
     <BrowserRouter> 
@@ -18,7 +21,8 @@ const App = () => {
                 <Route path="/home" element={<HomePage />} />
                  <Route path="/mynetwork" element={<MyNetworkPage />} /> 
                   <Route path="/jobs" element={<JobsPage />} />
-                
+              <Route path="/messaging" element={<MessagingPage />} />
+             <Route path="/notifications" element={<NotificationsPage />} />   
    <Route path="*" element={<h1 style={{ textAlign: 'center', marginTop: '4rem' }}>404 | Page Not Found</h1>} />
             </Routes>
         </div>
