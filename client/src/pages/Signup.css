@@ -1,11 +1,11 @@
- *{
+ /* *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     outline: none;
     text-decoration: none;
 
-}
+} */
 
 .wrapper{
     position: relative;
@@ -276,6 +276,7 @@ text-transform: capitalize;
 }
 
 .login-box .login-form .btn-box-alt .btn-join{
+  width: 100%;
  padding: 0.7rem 0.2rem;
  border: 2px solid transparent;
  background-color: #2867B2;

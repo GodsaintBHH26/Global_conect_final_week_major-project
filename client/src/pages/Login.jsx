@@ -1,5 +1,6 @@
 import React from 'react'
 import './Login.css'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
 
@@ -7,7 +8,7 @@ const Login = () => {
     <div className='wrapper w-screen'>
         <header className='header'>
            <div className='logo'>
-            <img src="./public/logo.png" alt="logo" srcSet='' />
+            <img src="/Logo.png" alt="logo" srcSet='' />
            </div>
            <div className='navigation'>
             <div className='btn-home'>Home</div>
@@ -33,7 +34,7 @@ const Login = () => {
                   <div className='btn-box'>
                     <input type="submit" name='' value='sign in'/>
                     <div className='forgot'>
-                     <a href='#'>forgot password?</a>
+                     <a href='/forgotPassword'>forgot password?</a>
                     </div>
                 </div>
                 
@@ -41,7 +42,7 @@ const Login = () => {
                     <span>or</span>
                 </div>
                 <div className='btn-box-alt'>
-                    <button className='btn-join'> New to Linkedin | join now</button>
+                    <Link to='/'><button className='btn-join'> New to Linkedin | join now</button></Link>
                 </div>
             </form>
            </div>

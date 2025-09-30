@@ -1,14 +1,16 @@
 import React from 'react'
 import './Signup.css'
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
+
   return (
 
     <div className='wrapper'>
 
         <header className='header'>
            <div className='logo'>
-            <img src="./public/logo.png" alt="logo" srcSet='' />
+            <img src="/Logo.png" alt="logo" srcSet=''/>
            </div>
         </header>
 
@@ -45,14 +47,11 @@ const Signup = () => {
                     <span>or</span>
                 </div>
                 <div className='btn-box-alt'>
-                    <button className='btn-join'> Already a member | log in</button>
+                  <Link to='/login'><button className='btn-join'> Already a member | log in</button></Link>
                 </div>
             </form>
            </div>
         </div>
-
-      
-
        </div>
 
     </div>
