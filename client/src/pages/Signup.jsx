@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import './Signup.css';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
 
 const Signup = () => {
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +19,7 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const formSubmit = (e) => {
     e.preventDefault();
     // Simple validation
     if (!formData.name || !formData.email || !formData.password) {
@@ -25,8 +27,12 @@ const Signup = () => {
       return;
     }
 
+    // Api Call
+
     console.log("Form submitted:", formData);
-     setFormData({ name: '', email: '', password: '',});
+    setFormData({ name: '', email: '', password: '',});
+    reset();
+
   
   };
 
@@ -54,54 +60,58 @@ const Signup = () => {
               <h1>Create your profile and connect with opportunities</h1>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="input-box">
+           <form onSubmit={handleSubmit(formSubmit)}>
+              {/* Name */}
+              <div className="input-box relative">
                 <label htmlFor="name">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   id="name"
-                  name="name"
                   placeholder="Full Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
+                  {...register("name", { required: "Name is required" })}
                 />
+                {errors.name && <p className="text-red-500 absolute top-9 right-4">{errors.name.message}</p>}
               </div>
 
-              <div className="input-box">
+              {/* Email */}
+              <div className="input-box relative">
                 <label htmlFor="email">
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
                   id="email"
-                  name="email"
                   placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
+                  {...register("email", { required: "Email is required", pattern: { value:/^[a-z0-9._+-]+@gmail\.com$/, message: "Invalid email address",},
+                  })}/>
+                {errors.email && <p className="text-red-500 absolute top-9 right-4 ">{errors.email.message}</p>}
               </div>
 
-              <div className="input-box">
+              {/* Password */}
+              <div className="input-box relative">
                 <label htmlFor="password">
                   Password <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="password"
                   id="password"
-                  name="password"
                   placeholder="Password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                  })}
                 />
+                {errors.password && <p className="text-red-500 absolute top-9 right-4">{errors.password.message}</p>}
               </div>
 
+              {/* Submit */}
               <div className="btn-box">
-                <input type="submit"  name='' value='sign up'/>
+                <input type="submit" value="Sign Up" />
               </div>
 
               <div className="or">
@@ -116,6 +126,7 @@ const Signup = () => {
                 </Link>
               </div>
             </form>
+
           </div>
         </div>
       </div>
