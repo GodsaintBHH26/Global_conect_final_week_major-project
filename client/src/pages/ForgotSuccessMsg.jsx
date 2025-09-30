@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const ForgotSuccessMsg = () => {
 
@@ -19,9 +20,9 @@ const ForgotSuccessMsg = () => {
         </p>
 
         {/* Buttons */}
-        <button className="w-full bg-[#2867B7] text-white py-2 rounded-lg font-medium hover:bg-blue-800 transition cursor-pointer">
-          Back To Login Page
-        </button>
+        <Link to='/login'>
+        <button className="w-full bg-[#2867B7] text-white py-2 rounded-lg font-medium hover:bg-blue-800 transition cursor-pointer">Back To Login Page</button>
+        </Link>
       
       </div>
     </div>

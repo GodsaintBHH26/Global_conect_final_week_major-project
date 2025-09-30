@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom'
 
 const Login = () => {
 
+
+ const handleSubmit = (e) => {
+  e.preventDefault();
+
+  // API call / validation 
+  console.log("Form submitted");
+
+};
+
   return (
     <div className='wrapper w-screen'>
         <header className='header'>
@@ -12,7 +21,7 @@ const Login = () => {
            </div>
            <div className='navigation'>
             <div className='btn-home'>Home</div>
-            <div className='btn-join'>join now</div>
+            <Link to='/' ><div className='btn-join'>join now</div></Link>
            </div>
         </header>
 
@@ -22,19 +31,19 @@ const Login = () => {
                <div className="title">
                 <h1>Welcome to your professional community</h1>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className='input-box'>
                     <label htmlFor="email">Email <span className='text-red-500'>*</span></label>
-                    <input type="text" id='email' name='email' placeholder='Email' />
+                    <input type="email" id='email' name='email' placeholder='Email' required/>
                 </div>
                  <div className='input-box'>
                     <label htmlFor="password">Password <span className='text-red-500'>*</span></label>
-                    <input type="password" id='password' name='password' placeholder='Password' />
+                    <input type="password" id='password' name='password' placeholder='Password' required/>
                 </div>
                   <div className='btn-box'>
-                    <input type="submit" name='' value='sign in'/>
+                    <input type="submit" name='' value='login'/>
                     <div className='forgot'>
-                     <a href='/forgotPassword'>forgot password?</a>
+                    <Link to="/forgotPassword">Forgot password?</Link>
                     </div>
                 </div>
                 
