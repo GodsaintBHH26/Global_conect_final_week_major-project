@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema(
     connections: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     connectionRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
+
   },
   { timestamps: true }
 );

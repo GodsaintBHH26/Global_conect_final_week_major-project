@@ -8,8 +8,24 @@ import User from "../models/user.js";
 export const createPost = async (req, res) => {
   try {
     const { content } = req.body;
-    const image = req.file ? req.file.path : undefined; // Cloudinary URL
-    const post = await Post.create({ userId: req.user._id, content, image });
+    let imageUrl = "";
+
+    // ✅ upload image if provided
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "global_connect/posts",
+      });
+      imageUrl = result.secure_url;
+    }
+
+    // ✅ attach logged-in user
+    const post = new Post({
+      userId: req.user._id,   // <-- this fixes the error
+      content,
+      image: imageUrl,
+    });
+
+    await post.save();
     res.status(201).json(post);
   } catch (err) {
     res.status(500).json({ message: err.message });

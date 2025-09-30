@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import User from "../models/user.js" 
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const authHeader = req.header("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -8,7 +9,14 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ msg: "No token found ❌\n Not authorized!" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    // Attach user to req (without password)
+    if (decoded) {
+      req.user = await User.findById(decoded.id).select("-password");
+    }
+    req.user = decoded; 
+    if (!req.user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     next();
   } catch (error) {
     res.status(401).json({ msg: error.message });
