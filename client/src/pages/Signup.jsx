@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
 import '../styles/signup.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import API from '../utils/api';
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const { register, handleSubmit, reset, formState: { errors }, } = useForm();
@@ -12,28 +14,32 @@ const Signup = () => {
     password: '',
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData( {...formData, [e.target.name]: e.target.value, } ); 
   };
 
-  const formSubmit = (e) => {
-    e.preventDefault();
-    // Simple validation
-    if (!formData.name || !formData.email || !formData.password) {
-      alert("All fields are required!");
-      return;
-    }
+  const formSubmit = async (formData) => {
+  try {
 
-    // Api Call
+  // Simple validation
+  if (!formData.name || !formData.email || !formData.password) {
+   toast.error("All fields are required!");
+  return;
+  }
 
-    console.log("Form submitted:", formData);
-    setFormData({ name: '', email: '', password: '',});
-    reset();
+  const response = await API.post("/auth/register", formData);
+  console.log("Form submitted:", response);
+  toast.success("registered success! Please Login");
+  setFormData({ name: '', email: '', password: '',});
+  navigate("/login");
+  reset();
 
-  
+   } catch (error) {
+     toast.error(error.response?.data?.message || "Error registering user");
+     console.log(error.message)
+   }
   };
 
   return (
@@ -60,10 +66,7 @@ const Signup = () => {
                 <label htmlFor="name">
                   Full Name <span className="required">*</span>
                 </label>
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="Full Name"
+                <input type="text" id="name" placeholder="Full Name" onChange={handleChange}
                   {...register("name", { required: "Name is required" })}
                 />
                 {errors.name && <p className="error">{errors.name.message}</p>}
@@ -74,10 +77,7 @@ const Signup = () => {
                 <label htmlFor="email">
                   Email <span className="required">*</span>
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Email"
+                <input type="email" id="email" placeholder="Email" onChange={handleChange}
                   {...register("email", { required: "Email is required", pattern: { value:/^[a-z0-9._+-]+@gmail\.com$/, message: "Invalid email address",},
                   })}/>
                 {errors.email && <p className="error">{errors.email.message}</p>}
@@ -88,10 +88,7 @@ const Signup = () => {
                 <label htmlFor="password">
                   Password <span className="required">*</span>
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="Password"
+                <input type="password" id="password" placeholder="Password" onChange={handleChange}
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
