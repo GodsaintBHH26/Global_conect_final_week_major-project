@@ -2,6 +2,12 @@
 @import './styles/colors.css'; 
 
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
 body {
   font-family: var(--gc-font-family-body);
   color: var(--gc-color-text);

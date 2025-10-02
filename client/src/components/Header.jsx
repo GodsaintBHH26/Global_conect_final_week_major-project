@@ -4,7 +4,7 @@ import { Search, Home, Users, Briefcase, MessageSquare, Bell, User, LayoutGrid }
 
 const Header = () => {
   const navItems = [
-    { Icon: Home, label: 'Home', to: '/', isActive: true },
+    { Icon: Home, label: 'Home', to: '/home', isActive: true },
     { Icon: Users, label: 'My Network', to: '/mynetwork', isActive: false },
     { Icon: Briefcase, label: 'Jobs', to: '/jobs', isActive: false }, 
     { Icon: MessageSquare, label: 'Messaging', to: '/messaging', isActive: false },
@@ -59,7 +59,7 @@ const NavItem = ({ Icon, label, to, isActive = false }) => (
           ))}
           
           {/* Profile */}
-          <Link to="/me" className="gc-nav-item" style={{ textDecoration:'none' }}>
+          <Link to="/profile" className="gc-nav-item" style={{ textDecoration:'none' }}>
             
             <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#9ca3af', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               <User size={16} style={{ color: '#ffffff' }} strokeWidth={2.5}/>
