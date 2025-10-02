@@ -59,7 +59,7 @@ const NavItem = ({ Icon, label, to, isActive = false }) => (
           ))}
           
           {/* Profile */}
-          <Link to="/me" className="gc-nav-item" style={{ textDecoration:'none' }}>
+          <Link to="/profile" className="gc-nav-item" style={{ textDecoration:'none' }}>
             
             <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#9ca3af', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               <User size={16} style={{ color: '#ffffff' }} strokeWidth={2.5}/>
