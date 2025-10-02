@@ -4,7 +4,7 @@ import { Search, Home, Users, Briefcase, MessageSquare, Bell, User, LayoutGrid }
 
 const Header = () => {
   const navItems = [
-    { Icon: Home, label: 'Home', to: '/', isActive: true },
+    { Icon: Home, label: 'Home', to: '/home', isActive: true },
     { Icon: Users, label: 'My Network', to: '/mynetwork', isActive: false },
     { Icon: Briefcase, label: 'Jobs', to: '/jobs', isActive: false }, 
     { Icon: MessageSquare, label: 'Messaging', to: '/messaging', isActive: false },
