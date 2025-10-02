@@ -1,24 +1,31 @@
 import multer from "multer";
-import path from "path";
-import fs from "fs";
+import cloudinary from "./cloudinary.js";
+import streamifier from "streamifier";
 
-const uploadsDir = path.join(process.cwd(), "uploads");
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+// storage rules
+const storage = multer.memoryStorage();
+export const upload = multer({ storage });
 
-// store files locally in /uploads (you can swap to Cloudinary/GridFS)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const name = `${Date.now()}-${Math.round(Math.random()*1e9)}${ext}`;
-    cb(null, name);
-  }
-});
+// Function to upload to cloudinary
+export const uploadToCloudinary = (file, req) => {
+  return new Promise((resolve, reject) => {
+    let folder = "global_connect";
+    if (req.baseUrl.includes("/user")) folder = "global_connect/user";
+    if (req.baseUrl.includes("/messages")) folder = "global_connect/messages";
+    if (req.baseUrl.includes("/posts")) folder = "global_connect/posts";
 
-const fileFilter = (req, file, cb) => {
-  // accept images and common media; extend as needed
-  if (file.mimetype.startsWith("image/") || file.mimetype.startsWith("video/")) cb(null, true);
-  else cb(null, false);
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder,
+        resource_type: "auto",
+        public_id: `${Date.now()}-${file.originalname.split(".")[0]}`,
+      },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+
+    streamifier.createReadStream(file.buffer).pipe(uploadStream);
+  });
 };
-
-export const upload = multer({ storage, fileFilter, limits: { fileSize: 10 * 1024 * 1024 } }); // 10MB

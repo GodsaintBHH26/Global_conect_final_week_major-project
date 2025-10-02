@@ -1,5 +1,6 @@
 import Post from "../models/Post.js"
 import User from "../models/user.js";
+import { uploadToCloudinary } from "../utils/multer.js";
 
 /**
  * POST /api/posts/
@@ -8,9 +9,20 @@ import User from "../models/user.js";
 export const createPost = async (req, res) => {
   try {
     const { content } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
-    const post = await Post.create({ userId: req.user._id, content, image });
-    res.status(201).json(post);
+    let fileUrl = "";
+
+    if(req.file){
+      const result = await uploadToCloudinary(req.file, req);
+      fileUrl = result.secure_url;
+    }
+
+    const newPost = new Post({
+      userId:req.user.uid,
+      content,
+      image:fileUrl
+    })
+    await newPost.save();
+    res.status(201).json(newPost);
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -22,11 +34,11 @@ export const createPost = async (req, res) => {
  */
 export const getFeed = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.user.uid;
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    const ids = [user._id, ...user.connections];
+    const ids = [user._id, ...(user.connections || [])].filter(Boolean);
     const posts = await Post.find({ userId: { $in: ids } })
       .sort({ createdAt: -1 })
       .populate("userId", "name profilePic");
@@ -44,12 +56,12 @@ export const likePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ msg: "Post not found" });
 
-    const uid = req.user._id;
-    if (post.likes.includes(uid)) {
+    const userId = req.user.uid;
+    if (post.likes.includes(userId)) {
       // unlike
       post.likes = post.likes.filter((id) => id.toString() !== uid.toString());
     } else {
-      post.likes.push(uid);
+      post.likes.push(userId);
     }
     await post.save();
     res.json(post);
@@ -73,3 +85,4 @@ export const commentPost = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+

@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import messageRoutes from "./routes/messageRoute.js";
 import jobRoutes from './routes/jobRoute.js'
+import postRoutes from './routes/postRoute.js'
 import { socketHandler } from "./controllers/messageController.js";
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/posts', postRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, {

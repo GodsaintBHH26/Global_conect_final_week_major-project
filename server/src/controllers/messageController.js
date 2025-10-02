@@ -1,5 +1,6 @@
 import Message from "../models/Message.js";
 import crypto from "crypto";
+import { uploadToCloudinary } from "../utils/multer.js";
 
 // Function that handles the message sending ------------------->
 export const socketHandler = (io) => {
@@ -15,6 +16,18 @@ export const socketHandler = (io) => {
       "sendMessage",
       async ({ senderId, receiverId, content, media }) => {
         try {
+          let mediaUrl = null;
+          if (media) {
+            const matches = media.match(/^data:(.+);base64,(.+)$/);
+            if (matches) {
+              const buffer = Buffer.from(matches[2], "base64");
+              const fakeReq = { baseUrl: "/messages" };
+              mediaUrl = await uploadToCloudinary(
+                { buffer, originalname: "attachment" },
+                fakeReq
+              );
+            }
+          }
           const newMessage = await Message.create({
             senderId,
             receiverId,
@@ -49,15 +62,22 @@ export const socketHandler = (io) => {
 
 // Function to send messages -----|POST: api/messages/|------------->
 export const postMessages = async (req, res) => {
-  const { receiverId, content, media } = req.body;
+  const { receiverId, content } = req.body;
+
   try {
     const senderId = req.user.uid;
     if (!senderId) return res.status(400).json({ msg: "Not authorized 🚫" });
+    let mediaUrl = undefined;
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file, req);
+      mediaUrl = result.secure_url;
+    }
+
     const newMessage = await Message.create({
       senderId,
       receiverId,
       content,
-      media,
+      media: mediaUrl,
     });
     res.status(201).json({ newMessage });
   } catch (error) {
