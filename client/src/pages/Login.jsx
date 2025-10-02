@@ -1,15 +1,34 @@
 
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/login.css';
+import API from '../utils/api';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log("Form submitted", data);
-    // API call / validation
+  const handleChange = (e) => {
+  setForm( {...form, [e.target.name]: e.target.value, } ); 
+  };
+
+  const onSubmit = async (form) => {
+   try {
+    const res = await API.post("/auth/login", form);
+    console.log("login Response", res.data);
+    toast.success("Login successfully!");
+    login(res.data);
+    navigate("/home");
+
+   } catch (error) {
+    toast.error(error.response?.data?.message || "Error logging in");
+    console.log(error.message)
+   }
 
   };
 
@@ -28,7 +47,7 @@ const Login = () => {
                 <input
                   type="email"
                   id='email'
-                  placeholder='Email'
+                  placeholder='Email' onChange={handleChange}
                   {...register("email", { 
                     required: "Email is required", 
                     pattern: {
@@ -45,7 +64,7 @@ const Login = () => {
                 <input
                   type="password"
                   id='password'
-                  placeholder='Password'
+                  placeholder='Password' onChange={handleChange}
                   {...register("password", { required: "Password is required", minLength: { value: 8, message: "Password must be at least 8 characters" } })}
                 />
                 {errors.password && <p className='error '>{errors.password.message}</p>}

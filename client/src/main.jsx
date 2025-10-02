@@ -6,11 +6,14 @@ import "./index.css";
 
 // ✅ import UserProvider
 import { UserProvider } from "./context/UserContext";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UserProvider>
-      <App />
+       <AuthProvider>
+        <App />
+       </AuthProvider>
     </UserProvider>
   </React.StrictMode>
 );

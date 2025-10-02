@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import { ToastContainer} from "react-toastify";
 
 import LeftSidebar from './components/LeftSidebar';
 import MainFeed from './components/MainFeed';
@@ -23,6 +24,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div style={{ minHeight: '100vh', paddingTop: '40px', backgroundColor: '#f3f2ef' }}>
+        <ToastContainer position="top-right" autoClose={2000}/>
         <Header />
 
         <Routes>
