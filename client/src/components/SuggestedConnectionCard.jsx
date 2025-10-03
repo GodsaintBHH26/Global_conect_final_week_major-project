@@ -3,7 +3,7 @@ import React from 'react';
 import user1 from '../assets/user.png';
 import { X, UserPlus } from 'lucide-react';
 
-const SuggestedConnectionCard = ({ user }) => {
+const SuggestedConnectionCard = ({ user, connected }) => {
     return (
         <div className="gc-card" style={{ padding: '0', textAlign: 'center', overflow: 'hidden', height: '100%', position: 'relative' , backgroundColor:'#ececec50' }}>
             
@@ -28,12 +28,32 @@ const SuggestedConnectionCard = ({ user }) => {
                     {user.name}
                 </h3>
                 <p style={{ color: 'var(--gc-color-text-muted)', fontSize: '0.8rem', minHeight: '32px' }}>
-                    {user.headline}
+                    {user.bio}
                 </p>
             </div>
 
             {/* Connect Button */}
-            <button 
+
+            {connected?(<button 
+                className="gc-btn-base" 
+                style={{ 
+                    width: '90%',
+                    padding: '0.5rem',
+                    border: '1px solid var(--gc-color-primary)',
+                    color: 'var(--gc-color-primary)',
+                    fontWeight: 600,
+                    marginBottom: '1rem',
+                    borderRadius: '2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    margin: '0.5rem auto 1rem auto'
+                }}
+                onClick={() => console.log(`Connecting with: ${user.name}`)}
+            >
+                View Profile
+            </button>):(<button 
                 className="gc-btn-base" 
                 style={{ 
                     width: '90%',
@@ -53,7 +73,7 @@ const SuggestedConnectionCard = ({ user }) => {
             >
                 <UserPlus size={18} />
                 Connect
-            </button>
+            </button>)}
         </div>
     );
 };

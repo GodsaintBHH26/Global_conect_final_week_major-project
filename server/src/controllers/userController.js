@@ -1,8 +1,8 @@
-import User from "../models/user.js"
+import User from "../models/user.js";
 
 /**
  * PUT /api/user/add-details             ---- Please don't remove it again we need this one - I'll explain later why
- * 
+ *
  */
 export const updateBasicDetails = async (req, res) => {
   const { uid } = req.user;
@@ -45,13 +45,15 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     // only allow user or admin
-    if (req.user._id.toString() !== req.params.id && req.user.role !== "admin") {
-      return res.status(403).json({ msg: "Not authorized" });
+    if (!req.user.uid) {
+      return res.status(403).json({ msg: "Please Login" });
     }
 
     const updates = req.body;
     if (updates.password) delete updates.password; // password update should be separate
-    const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true }).select("-password");
+    const user = await User.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+    }).select("-password");
     res.json(user);
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -64,18 +66,20 @@ export const updateUser = async (req, res) => {
  */
 export const sendConnectionRequest = async (req, res) => {
   try {
-    const targetId = req.params.id;
-    if (targetId === req.user._id.toString()) return res.status(400).json({ msg: "Cannot connect to self" });
+    const { targetId } = req.params;
+    if (targetId === req.user.uid)
+      return res.status(400).json({ msg: "Cannot connect to self" });
 
     const target = await User.findById(targetId);
     if (!target) return res.status(404).json({ msg: "Target user not found" });
 
     // if already connected
-    if (target.connections.includes(req.user._id)) return res.status(400).json({ msg: "Already connected" });
+    if (target.connections.includes(req.user.uid))
+      return res.status(400).json({ msg: "Already connected" });
 
     // add request if not present
-    if (!target.connectionRequests.includes(req.user._id)) {
-      target.connectionRequests.push(req.user._id);
+    if (!target.connectionRequests.includes(req.user.uid)) {
+      target.connectionRequests.push(req.user.uid);
       await target.save();
     }
 
@@ -91,16 +95,21 @@ export const sendConnectionRequest = async (req, res) => {
  */
 export const acceptConnection = async (req, res) => {
   try {
-    const requesterId = req.params.id;
-    const user = await User.findById(req.user._id);
+    const { requesterId } = req.params;
+    const user = await User.findById(req.user.uid);
     const requester = await User.findById(requesterId);
     if (!requester) return res.status(404).json({ msg: "Requester not found" });
-
+    if (user.connections.includes(requester._id))
+      return res.status(400).json({ msg: "User already in connections" });
     // remove from connectionRequests
-    user.connectionRequests = user.connectionRequests.filter((id) => id.toString() !== requesterId);
+    user.connectionRequests = user.connectionRequests.filter(
+      (id) => id.toString() !== requesterId
+    );
     // add to connections both sides if not present
-    if (!user.connections.includes(requesterId)) user.connections.push(requesterId);
-    if (!requester.connections.includes(user._id)) requester.connections.push(user._id);
+    if (!user.connections.includes(requesterId)) {
+      user.connections.push(requesterId);
+      requester.connections.push(user._id);
+    }
 
     await user.save();
     await requester.save();
@@ -110,3 +119,13 @@ export const acceptConnection = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
+//  GET /api/users/all
+export const getAllUsers = async (req, res) =>{
+  try {
+    const allUsers = await User.find({}).select('-password');
+    res.json({allUsers})
+  } catch (error) {
+    res.status(500).json({msg:"Couldn't fetch user datas."})
+  }
+}

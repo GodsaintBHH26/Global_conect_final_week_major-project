@@ -1,88 +1,105 @@
-
-import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/login.css';
-import API from '../utils/api';
-import { toast } from 'react-toastify';
-import { AuthContext } from '../context/AuthContext';
+import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/login.css";
+import API from "../utils/api";
+import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  // const [form, setForm] = useState({ email: "", password: "" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-  setForm( {...form, [e.target.name]: e.target.value, } ); 
-  };
+  // const handleChange = (e) => {
+  //   setForm({ ...form, [e.target.name]: e.target.value });
+  // };
 
-  const onSubmit = async (form) => {
-   try {
-    const res = await API.post("/auth/login", form);
-    console.log("login Response", res.data);
-    toast.success("Login successfully!");
-    login(res.data);
-    navigate("/home");
-
-   } catch (error) {
-    toast.error(error.response?.data?.message || "Error logging in");
-    console.log(error.message)
-   }
-
+  const onSubmit = async (formData) => {
+    try {
+      await login(formData);
+      toast.success("Login successfully!");
+      navigate("/home");
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Error logging in");
+      console.log(error.message);
+    }
   };
 
   return (
-    <div className='wrapper'>
-      <div className='login-box'>
+    <div className="wrapper">
+      <div className="login-box">
         <div className="login-form">
-          <div className='box'>
+          <div className="box">
             <div className="title">
               <h1>Welcome to your professional community</h1>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className='input-box relative'>
-                <label htmlFor="email">Email <span className='required '>*</span></label>
+              <div className="input-box relative">
+                <label htmlFor="email">
+                  Email <span className="required ">*</span>
+                </label>
                 <input
                   type="email"
-                  id='email'
-                  placeholder='Email' onChange={handleChange}
-                  {...register("email", { 
-                    required: "Email is required", 
+                  id="email"
+                  placeholder="Email"
+                  {...register("email", {
+                    required: "Email is required",
                     pattern: {
                       value: /^[a-z0-9._+-]+@gmail\.com$/,
-                      message: "Only lowercase Gmail is allowed"
-                    }
+                      message: "Only lowercase Gmail is allowed",
+                    },
                   })}
                 />
-                {errors.email && <p className='error'>{errors.email.message}</p>}
+                {errors.email && (
+                  <p className="error">{errors.email.message}</p>
+                )}
               </div>
 
-              <div className='input-box relative'>
-                <label htmlFor="password">Password <span className='required'>*</span></label>
+              <div className="input-box relative">
+                <label htmlFor="password">
+                  Password <span className="required">*</span>
+                </label>
                 <input
                   type="password"
-                  id='password'
-                  placeholder='Password' onChange={handleChange}
-                  {...register("password", { required: "Password is required", minLength: { value: 8, message: "Password must be at least 8 characters" } })}
+                  id="password"
+                  placeholder="Password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 8 characters",
+                    },
+                  })}
                 />
-                {errors.password && <p className='error '>{errors.password.message}</p>}
+                {errors.password && (
+                  <p className="error ">{errors.password.message}</p>
+                )}
               </div>
 
-              <div className='btn-box'>
-                <input type="submit" value='Login' />
-                <div className='forgot'>
+              <div className="btn-box">
+                <input type="submit" value="Login" />
+                <div className="forgot">
                   <Link to="/forgotPassword">Forgot password?</Link>
                 </div>
               </div>
 
-              <div className='or'>
+              <div className="or">
                 <span>or</span>
               </div>
 
-              <div className='btn-box-alt'>
-                <Link to='/signup'><button className='btn-join'>New to LinkedIn | Join Now</button></Link>
+              <div className="btn-box-alt">
+                <Link to="/signup">
+                  <button className="btn-join">
+                    New to LinkedIn | Join Now
+                  </button>
+                </Link>
               </div>
             </form>
           </div>
@@ -90,12 +107,15 @@ const Login = () => {
 
         <div className="login-image ">
           <div className="image">
-            <img src="https://img.freepik.com/premium-vector/man-sits-front-phone-that-says-logitech_1314854-10316.jpg?semt=ais_hybrid&w=740&q=80" alt="login" />
+            <img
+              src="https://img.freepik.com/premium-vector/man-sits-front-phone-that-says-logitech_1314854-10316.jpg?semt=ais_hybrid&w=740&q=80"
+              alt="login"
+            />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

@@ -1,35 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "../../../context/UserContext";
+import { useAuth } from "../../../context/AuthContext";
+import API from "../../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const ProfileHeader = () => {
   const { user, setUser } = useUser();
   const [editMode, setEditMode] = useState(false);
+  const auth = useAuth();
+  const navigate = useNavigate();
 
   // local form state for editing
   const [name, setName] = useState(user?.name ?? "");
-  const [headline, setHeadline] = useState(user?.headline ?? "");
-  const [avatar, setAvatar] = useState(user?.avatar ?? "");
+  const [bio, setBio] = useState(user?.bio ?? "");
+  const [image, setImage] = useState(user?.image ?? "");
   const [banner, setBanner] = useState(user?.banner ?? "");
 
   const handleSave = () => {
     setUser({
       ...user,
       name: name.trim() || user.name,
-      headline: headline.trim() || user.headline,
-      avatar: avatar.trim() || user.avatar,
+      bio: bio.trim() || user.bio,
+      image: image.trim() || user.image,
       banner: banner.trim() || user.banner,
     });
+    
     setEditMode(false);
   };
 
   const handleCancel = () => {
     // reset local fields to current user values
     setName(user?.name ?? "");
-    setHeadline(user?.headline ?? "");
-    setAvatar(user?.avatar ?? "");
+    setBio(user?.bio ?? "");
+    setImage(user?.image ?? "");
     setBanner(user?.banner ?? "");
     setEditMode(false);
   };
+
+  const handleLogout = ()=>{
+    auth.logout();
+  }
+
+  const fetchUserData = async ()=>{
+    const userData = await API.get(`/user/${auth.user?.uid}`)
+    console.log(userData.data);
+    setUser(userData.data);
+  }
+
+  useEffect(()=>{
+    if(!auth.loading){
+      if(!auth.user) navigate('/login')
+    }
+    fetchUserData();
+  }, [auth.loading, auth.user])
 
   const bannerStyle = banner
     ? { backgroundImage: `url(${banner})`, backgroundSize: "cover", backgroundPosition: "center" }
@@ -50,14 +73,14 @@ const ProfileHeader = () => {
           <div
             className="w-28 h-28 rounded-full flex items-center justify-center text-white text-2xl font-bold border-4"
             style={{
-              backgroundImage: avatar ? `url(${avatar})` : "none",
+              backgroundImage: image ? `url(${image})` : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              backgroundColor: avatar ? "transparent" : "var(--gc-color-secondary)",
+              backgroundColor: image ? "transparent" : "var(--gc-color-secondary)",
               borderColor: "var(--gc-color-white)",
             }}
           >
-            {!avatar && (user?.name ? user.name.charAt(0) : "U")}
+            {!image && (user?.name ? user.name.charAt(0) : "U")}
           </div>
 
           {/* Name & Headline */}
@@ -69,7 +92,7 @@ const ProfileHeader = () => {
               {user?.name}
             </h2>
             <p className="text-[var(--gc-color-text-muted)]">
-              {user?.headline}
+              {user?.bio}
             </p>
           </div>
         </div>
@@ -113,6 +136,12 @@ const ProfileHeader = () => {
               </button>
             </div>
           )}
+          
+        </div>
+        <div>
+          <button onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </div>
 
@@ -166,8 +195,8 @@ const ProfileHeader = () => {
               Headline
             </label>
             <input
-              value={headline}
-              onChange={(e) => setHeadline(e.target.value)}
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
               className="w-full p-2 rounded border mt-1"
               style={{ borderColor: "var(--gc-color-border)" }}
             />
@@ -176,8 +205,8 @@ const ProfileHeader = () => {
               Avatar image URL
             </label>
             <input
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
               className="w-full p-2 rounded border mt-1"
               style={{ borderColor: "var(--gc-color-border)" }}
               placeholder="https://..."

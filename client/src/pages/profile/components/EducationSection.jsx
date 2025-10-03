@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useUser } from "../../../context/UserContext";
 
 const EducationSection = () => {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const [editIndex, setEditIndex] = useState(null);
   const [formData, setFormData] = useState({ school: "", degree: "", years: "" });
 
@@ -24,7 +24,7 @@ const EducationSection = () => {
     setUser({ ...user, education: updatedEducation });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     let updatedEducation = [...user.education];
     if (editIndex < user.education.length) {
       // update existing
@@ -33,7 +33,14 @@ const EducationSection = () => {
       // add new
       updatedEducation.push(formData);
     }
-    setUser({ ...user, education: updatedEducation });
+      try {
+    const res = await API.put("/user/add-details", {
+      education: updatedEducation
+    });
+    setUser(res.data.user); // update context with fresh backend data
+  } catch (err) {
+    console.error("Failed to save education:", err);
+  }
     setEditIndex(null);
     resetForm();
   };
