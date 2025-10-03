@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useUser } from "../../../context/UserContext";
 
 const EducationSection = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const [editIndex, setEditIndex] = useState(null);
   const [formData, setFormData] = useState({ school: "", degree: "", years: "" });
 
