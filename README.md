@@ -1,4 +1,4 @@
-                                                                        Global Connect - Professional Networking Platform
+       Global Connect - Professional Networking Platform
 
 Project Overview
 
