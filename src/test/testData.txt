@@ -1,0 +1,17 @@
+{
+    "uid": "68d8ec3c393a21d3a96b2dd4",
+    "name": "Alice",
+    "email": "alice@example.com"
+}
+
+{
+    "uid": "68d8ec98393a21d3a96b2dd7",
+    "name": "Bob",
+    "email": "bob@example.com"
+}
+
+{
+    "uid": "68d7448c12b5db15296b3f4b",
+    "name": "Arijit Kabiraj",
+    "email": "kabiraj@gmail.com"
+}
