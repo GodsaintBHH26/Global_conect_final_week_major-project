@@ -45,39 +45,10 @@ const App = () => {
           <Route
             path="/profile"
             element={
-              <main className="container-3col">
-                <div className="gc-grid-main">
-                  {/* Column 1: Left Sidebar */}
-                  <div className="gc-col-left">
-                    <div className="gc-sticky-sidebar">
-                      <LeftSidebar />
-                    </div>
-                  </div>
-
-                  {/* Column 2: Main Feed / Profile */}
-                  <div className="gc-col-middle">
-                    {/* <MainFeed />  // uncomment if you want feed + profile */}
-                    <ProfilePage />
-                  </div>
-
-                  {/* Column 3: Right Sidebar */}
-                  <div className="gc-col-right">
-                    <div className="gc-sticky-sidebar">
-                      <RightSidebar />
-                    </div>
-                  </div>
-                </div>
-              </main>
+              <ProfilePage />
             }
           />
-          <Route
-            path="*"
-            element={
-              <h1 style={{ textAlign: 'center', marginTop: '4rem' }}>
-                404 | Page Not Found
-              </h1>
-            }
-          />
+          {/* 👆 End Profile page route */}
         </Routes>
       </div>
     </BrowserRouter>

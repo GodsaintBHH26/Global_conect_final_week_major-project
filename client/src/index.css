@@ -6,7 +6,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+a{
+   text-decoration: none; 
+}
 
 body {
   font-family: var(--gc-font-family-body);
@@ -211,7 +213,8 @@ h1, h2, h3 {
    color: var(--gc-color-primary); 
    font-weight: 600; 
    cursor: pointer; 
-   transition: color 150ms; }
+   transition: color 150ms;
+  text-decoration: none; }
 .gc-link-primary:hover {
    color: #6a1aab; }
 .gc-btn-base {

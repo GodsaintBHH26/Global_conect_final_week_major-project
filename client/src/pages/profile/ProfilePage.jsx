@@ -8,44 +8,36 @@ import ExperienceSection from "./components/ExperienceSection";
 import EducationSection from "./components/EducationSection";
 import SkillsSection from "./components/SkillsSection";  // ✅ new import
 import ConnectionsList from "./components/ConnectionsList";
-
 const ProfilePage = () => {
-  return (
-    <div className="bg-[var(--gc-color-background)] min-h-screen font-[var(--gc-font-family-body)]">
-      {/* Top Navbar */}
-      <header className="bg-[var(--gc-color-primary)] text-white px-6 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-bold">My Profile</h1>
-        <nav className="space-x-6">
-          <a href="#" className="hover:underline">
-            Home
-          </a>
-          <a href="#" className="hover:underline">
-            Network
-          </a>
-          <a href="#" className="hover:underline">
-            Jobs
-          </a>
-        </nav>
-      </header>
+  return (
+    <>
+    {/* Background and height set by App.jsx, but adding margin for clarity */}
+    <div className="container-3col" style={{ padding: "1.5rem 0" }}> 
+      
+      {/* Main Profile Grid: 70% Content | 30% Sidebar */}
+      <main style={{ display: "grid", gridTemplateColumns: "7fr 3fr", gap: "1.5rem", alignItems: "flex-start" }}>
+        
+        {/* Column 1 (70%): Profile Info Sections */}
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <ProfileHeader />
+          <AboutSection />
+          <ExperienceSection />
+          <EducationSection />
+          <SkillsSection />
+        </section>
 
-      {/* Main Profile Section */}
-      <main className="px-6 py-6 flex">
-        {/* Left: Profile Info */}
-        <section className="w-2/3 bg-[var(--gc-color-white)] rounded-lg shadow p-6 space-y-6">
-          <ProfileHeader />
-          <AboutSection />
-          <ExperienceSection />
-          <EducationSection />
-          <SkillsSection /> {/* ✅ new section */}
-        </section>
-
-        {/* Right: Sidebar */}
-        <aside className="w-1/3 ml-6">
-          <ConnectionsList />
-        </aside>
-      </main>
-    </div>
-  );
+        {/* Column 2 (30%): Sidebar (Connections & Ads) */}
+        <aside style={{ position: 'sticky', top: '72px', height: 'fit-content' }}>
+          <ConnectionsList />
+          {/* Add a placeholder card below Connections for visual space */}
+          <div className="gc-card" style={{ marginTop: '1rem', padding: '1.5rem', height: 'fit-content' }}>
+            Profile Language & Ads
+          </div>
+        </aside>
+      </main>
+    </div>
+    </>
+  );
 };
 
 export default ProfilePage;

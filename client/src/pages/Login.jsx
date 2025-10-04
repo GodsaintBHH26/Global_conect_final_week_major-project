@@ -97,7 +97,7 @@ const Login = () => {
               <div className="btn-box-alt">
                 <Link to="/signup">
                   <button className="btn-join">
-                    New to LinkedIn | Join Now
+                    New to GC | Join Now
                   </button>
                 </Link>
               </div>
