@@ -1,0 +1,46 @@
+# ----------------------
+# Server Configuration
+# ----------------------
+PORT=5000
+NODE_ENV=development
+
+# ----------------------
+# MongoDB Connection
+# ----------------------
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/global_connect
+
+# ----------------------
+# JWT (Authentication)
+# ----------------------
+JWT_SECRET=your_jwt_secret_key
+
+# ----------------------
+# Image Upload Configuration
+# ----------------------
+
+# Select upload mode:
+# Options: "local" or "cloudinary"
+UPLOAD_MODE=local
+
+# --- For Local Uploads ---
+# Folder name where files will be stored (default: global_connect)
+UPLOAD_DIR=global_connect
+
+# --- For Cloudinary (Optional) ---
+# Only required if UPLOAD_MODE=cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# ----------------------
+# Email (SMTP Config)
+# ----------------------
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_app_password_or_smtp_password
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+
+# ----------------------
+# Client (Frontend URL)
+# ----------------------
+CLIENT_URL=http://localhost:3000
