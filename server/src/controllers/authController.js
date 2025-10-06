@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import sendEmail from "../utils/sendEmail.js";
 
-const otpStore = {}
+const otpStore = {};
 
 // Function that creates the user account -------------------------------->
 export const registerUser = async (req, res) => {
@@ -81,7 +81,7 @@ export const logUserIn = async (req, res) => {
   }
 };
 
-// 📌 Forgot Password
+// Function that will be used for Forgot Password | sends OTP ---------------->
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -92,7 +92,7 @@ export const forgotPassword = async (req, res) => {
     const otp = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit
     otpStore[email] = {
       otp,
-      expires: Date.now() + 5 * 60 * 1000, // 5 minutes
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
     };
 
     // Send OTP email
@@ -108,18 +108,42 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-// 📌 Reset Password
-export const resetPassword = async (req, res) => {
+// Function to verify the OTP and generate a temporary token to be used for setting a new password ------------>
+export const verifyOTP = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
-
+    const { email, otp } = req.body;
     const record = otpStore[email];
     if (!record) return res.status(400).json({ message: "OTP not requested" });
-    if (record.otp !== otp) return res.status(400).json({ message: "Invalid OTP" });
-    if (Date.now() > record.expires) return res.status(400).json({ message: "OTP expired" });
+    if (record.otp !== otp)
+      return res.status(400).json({ message: "Invalid OTP" });
+    if (Date.now() > record.expires)
+      return res.status(400).json({ message: "OTP expired" });
 
-    // Update password
+    // OTP is valid → generate temporary token for password reset
+    const tempToken = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+
+    res.json({ message: "OTP verified ✅", tempToken });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Function to set new password ------------------------------------------->
+export const resetPassword = async (req, res) => {
+  try {
+    const { tempToken, newPassword } = req.body;
+
+    // Verifying the token
+    const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
+    const email = decoded.email;
+    
+    // Checking the user
     const user = await User.findOne({ email });
+    if(!user) return res.status(400).json({msg:"User not found ⛔"})
+    
+    // Updating password 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
     await user.save();
