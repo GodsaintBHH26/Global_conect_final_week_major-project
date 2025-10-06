@@ -46,3 +46,16 @@ GET api/user/:id
 PUT api/user/add-details
 GET api/messages/:senderId/:receiverId
 POST api/messages/
+
+**Akriti Sharma**
+i've use the multer local storage in order to store the file locally...
+created file in config folder..
+update postRoute for posting file and userRoute for uploading profile particular
+
+updated working route is...
+PUT  {{baseURL}}/api/user/68d8faa3f0af7a0e8b7e3868/profile-image
+<<<<<<< HEAD
+POST  {{baseURL}}/api/posts/
+=======
+POST  {{baseURL}}/api/posts/
+>>>>>>> b3b330a (updating functionality for multer)
