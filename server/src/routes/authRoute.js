@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/register', registerUser);
 router.post('/login', logUserIn);
+router.post("/forgot-password", forgotPassword);
 router.post('/verify-otp', verifyOTP);
 router.post("/resend-otp", resendOtpController);
-router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword); 
 
 export default router;

@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles/PasswordReset.module.css";
 import API from "../utils/api";
 import { toast } from "react-toastify";
@@ -9,6 +9,7 @@ const PasswordReset = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const location = useLocation();
   const email = location.state?.email;
+  const navigate = useNavigate();
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -30,9 +31,11 @@ const PasswordReset = () => {
     }
     try {
       const response = await API.post("/auth/verify-otp", { otp: otpValue, email: email, });
-        console.log("verifyData", response)
-       toast.success(response.data.message || "OTP verified successfully ");
-       setOtp(["", "", "", ""]);
+      console.log("verifyData", response)
+      localStorage.setItem("resetToken", response.data.tempToken);
+      toast.success(response.data.message || "OTP verified successfully ");
+      setOtp(["", "", "", ""]);
+      navigate("/setNewPassword")
 
     } catch (err) {
       console.error(err);
@@ -48,7 +51,9 @@ const PasswordReset = () => {
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Failed to resend OTP.");
-    }
+    }finally{
+    setTimeout(() => setResendDisabled(false), 60000); // 60 sec cool-down
+  }
   };
 
 
@@ -67,7 +72,7 @@ const PasswordReset = () => {
 
         <h2 className={styles.heading}>Password reset</h2>
         <p className={styles.subText}>
-          We sent a code to <span>amelie@untitledui.com</span>
+          We sent a code to <span>{email}</span>
         </p>
 
         <div className={styles.otpWrapper}>

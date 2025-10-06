@@ -128,12 +128,14 @@ export const verifyOTP = async (req, res) => {
       expiresIn: "15m",
     });
     res.json({ message: "OTP verified Successful ", tempToken:tempToken });
-    
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+
+//<----------------------- Resend OTP------------------------------>
 export const resendOtpController = async (req, res) => {
   try {
     const { email } = req.body;

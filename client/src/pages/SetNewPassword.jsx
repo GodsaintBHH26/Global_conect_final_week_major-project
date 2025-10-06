@@ -1,35 +1,44 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styles from '../styles/setNewPassword.module.css';
+import API from '../utils/api';
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
-const SetNewPassword = () => {
+
+  const SetNewPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password.length < 8) {
-      alert("Password must be at least 8 characters");
+      toast.info("Password must be at least 8 characters");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.info("Passwords do not match");
       return;
     }
 
     try {
-      const response = await axios.post("YOUR_BACKEND_API", { password });
-      alert("Password reset successful!");
+      const token = localStorage.getItem("resetToken");
+      const response = await API.post("/auth/reset-password", { newPassword: password, tempToken: token });
+      toast.success("Password reset successful!");
       console.log("Api data :", response.data);
-      setPassword("");
       setConfirmPassword("");
+      setPassword("");
+      navigate('/forgotSuccessMsg')
+
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Error resetting password");
+      toast.error(err.response?.data?.message || "Error resetting password");
     }
   };
+
 
   return (
     <div className={styles.container}>
