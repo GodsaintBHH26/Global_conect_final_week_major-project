@@ -59,3 +59,5 @@ POST  {{baseURL}}/api/posts/
 =======
 POST  {{baseURL}}/api/posts/
 >>>>>>> b3b330a (updating functionality for multer)
+***NOTE**
+we have to create a blank folder named as "global_connect" in the server folder to store the images or files.
