@@ -13,7 +13,7 @@ a{
 body {
   font-family: var(--gc-font-family-body);
   color: var(--gc-color-text);
-  background-color: #f3f2ef;
+  background-color: #d3d4d4;
 }
 
 h1, h2, h3 {

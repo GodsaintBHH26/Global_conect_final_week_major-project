@@ -113,36 +113,45 @@ const ProfileHeader = () => {
           </div>
         </div>
         
-        {/* Edit button */}
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: "1rem" }}>
-          {!editMode ? (
-            <button
-              onClick={() => setEditMode(true)}
-              className="gc-btn-reset px-3 py-1 text-sm rounded" 
-              style={{ cursor: 'pointer', color: 'var(--gc-color-primary)', border: '1px solid var(--gc-color-primary)', fontWeight: 600 }}
-            >
-              Edit profile
-            </button>
-          ) : (
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button
-                onClick={handleSave}
-                    className="gc-btn-primary px-3 py-1 text-sm rounded"
-             style={{ cursor: 'pointer' }}
-              >
-                Save
-              </button>
-              <button
-                onClick={handleCancel}
-                   className="gc-btn-reset px-3 py-1 text-sm rounded" 
-             style={{ cursor: 'pointer', color: 'var(--gc-color-anchor)', border: '1px solid var(--gc-color-border)' }}
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+         {/* Edit & Logout buttons */}
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: "1rem", gap: '0.5rem' }}>
+        {!editMode ? (
+          <>
+            <button
+              onClick={() => setEditMode(true)}
+              className="gc-btn-reset px-3 py-1 text-sm rounded"
+              style={{ cursor: 'pointer', color: 'var(--gc-color-primary)', border: '1px solid var(--gc-color-primary)', fontWeight: 600 }}
+            >
+              Edit profile
+            </button>
+            <button
+              onClick={handleLogout}
+              className="gc-btn-reset px-3 py-1 text-sm rounded"
+              style={{ cursor: 'pointer', color: 'var(--gc-color-error)', border: '1px solid var(--gc-color-error)', fontWeight: 600 }}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={handleSave}
+              className="gc-btn-primary px-3 py-1 text-sm rounded"
+              style={{ cursor: 'pointer' }}
+            >
+              Save
+            </button>
+            <button
+              onClick={handleCancel}
+              className="gc-btn-reset px-3 py-1 text-sm rounded"
+              style={{ cursor: 'pointer', color: 'var(--gc-color-anchor)', border: '1px solid var(--gc-color-border)' }}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
 
       {/* Stats & optional edit form */}
       <div style={{ marginTop: '1rem', display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>

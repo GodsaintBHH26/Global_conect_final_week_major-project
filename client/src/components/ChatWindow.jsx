@@ -1,59 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoreVertical, Paperclip, Send } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 import { socket } from "../utils/socket.js";
 
-// --- Dummy Messages ---
-const initialMessages = [
-  {
-    id: 1,
-    sender: "other",
-    text: "Hi! Can you quickly review the Mongoose models we discussed?",
-    time: "1:05 PM",
-  },
-  {
-    id: 2,
-    sender: "self",
-    text: "Sure thing, I just pushed the final Post and User schemas.",
-    time: "1:07 PM",
-  },
-  {
-    id: 3,
-    sender: "other",
-    text: "Perfect. Let me know when you start the authentication routes.",
-    time: "1:10 PM",
-  },
-  {
-    id: 4,
-    sender: "self",
-    text: "Will do! Planning to start tomorrow morning. Check the repo then.",
-    time: "1:12 PM",
-  },
-];
-
+// Single message bubble
 const MessageBubble = ({ message }) => {
   const isSelf = message.sender === "self";
-  const bubbleStyle = {
-    padding: "0.75rem 1rem",
-    borderRadius: "1rem",
-    maxWidth: "70%",
-    marginBottom: "0.5rem",
-    fontSize: "0.9rem",
-    lineHeight: 1.4,
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: isSelf ? "flex-end" : "flex-start",
-      }}
-    >
+    <div style={{ display: "flex", justifyContent: isSelf ? "flex-end" : "flex-start" }}>
       <div
         style={{
-          ...bubbleStyle,
+          padding: "0.75rem 1rem",
+          borderRadius: "1rem",
+          maxWidth: "70%",
+          marginBottom: "0.5rem",
+          fontSize: "0.9rem",
+          lineHeight: 1.4,
           backgroundColor: isSelf ? "var(--gc-color-primary)" : "#eef3f8",
-          color: isSelf ? "var(--gc-color-white)" : "var(--gc-color-text)",
+          color: isSelf ? "#fff" : "#000",
           borderRadius: isSelf ? "1rem 1rem 0 1rem" : "1rem 1rem 1rem 0",
         }}
       >
@@ -61,9 +26,7 @@ const MessageBubble = ({ message }) => {
         <div
           style={{
             fontSize: "0.65rem",
-            color: isSelf
-              ? "rgba(255, 255, 255, 0.7)"
-              : "var(--gc-color-text-muted)",
+            color: isSelf ? "rgba(255,255,255,0.7)" : "#777",
             textAlign: "right",
             marginTop: "0.5rem",
           }}
@@ -75,144 +38,98 @@ const MessageBubble = ({ message }) => {
   );
 };
 
-const ChatWindow = ({ activeChatUser }) => {
+const ChatWindow = ({ activeChatUser, authUser }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const auth = useAuth();
   const messagesEndRef = useRef(null);
 
+  // Dummy chat history per user
   useEffect(() => {
     if (!activeChatUser) return;
 
-    const combined = [activeChatUser.id, auth.user?.uid].sort();
-    const chatId = require("crypto")
-      .createHash("md5")
-      .update(combined)
-      .digest("hex");
+    const dummyHistory = [
+      { id: 1, sender: "self", text: `Hi ${activeChatUser.name}!`, time: "12:00 PM" },
+      { id: 2, sender: "other", text: `Hello ${authUser.name}, how are you?`, time: "12:01 PM" },
+      { id: 3, sender: "self", text: "I am good, thanks!", time: "12:02 PM" },
+      { id: 4, sender: "other", text: "Great to hear!", time: "12:03 PM" },
+    ];
 
-    socket.emit("joinRoom", chatId);
+    setMessages(dummyHistory);
+  }, [activeChatUser]);
 
-    socket.on("receiveMessage", (newMessage) => {
-      setMessages((prev) => [...prev, newMessage]);
-    });
-
-    socket.on("messageRead", ({ chatId, userId }) => {
-      console.log("Messages marked as read", chatId, userId);
-    });
-
-    return () => {
-      socket.off("receiveMessage");
-      socket.off("messageRead");
-    };
-  }, [ auth.user, activeChatUser]);
-
+  // Scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Functionality for sending a message
   const handleSend = () => {
-    if (input.trim() === "") return;
+  if (!input.trim()) return;
 
-    const newMessage = {
-      senderId: auth.user?.uid,
-      receiverId: activeChatUser.id,
-      content: input.trim(),
-      time: new Date(newMessage.createdAt || Date.now()).toLocaleTimeString(
-        "en-US",
-        {
-          hour: "numeric",
-          minute: "2-digit",
-        }
-      ),
+  const newMsg = {
+    id: messages.length + 1,
+    sender: "self",
+    text: input,
+    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+  };
+
+  // Add self message
+  setMessages((prev) => [...prev, newMsg]);
+  setInput("");
+
+  // Emit via socket
+  socket.emit("sendMessage", {
+    senderId: authUser.uid,
+    receiverId: activeChatUser._id,
+    content: newMsg.text,
+    timestamp: new Date(),
+  });
+
+  // Simulate dummy reply after 1.5 seconds
+  setTimeout(() => {
+    const replyMsg = {
+      id: messages.length + 2, // ensure unique id
+      sender: "other",
+      text: `Reply from ${activeChatUser.name} to "${input}"`,
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
-
-    socket.emit("sendMessage", newMessage);
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        sender: "self",
-        text: input.trim(),
-        time: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        }),
-      },
-    ]);
-    setInput("");
-
-    // 2. Placeholder for real-time (Socket.io) or API call
-    console.log("SENDING MESSAGE:", newMessage);
-  };
-
-  const handleAttach = () => {
-    alert(
-      "File attachment functionality ready! (MERN backend required to handle upload)"
-    );
-  };
-
-  const user = activeChatUser || { user: "Project Lead", status: "Online" };
+    setMessages((prev) => [...prev, replyMsg]);
+  }, 1500);
+};
 
   return (
-    <div
-      className="gc-card"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
-    >
-      {/* Header: Active Chat User */}
+    <div className="gc-card" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      {/* Header */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "1rem 1.5rem",
-          borderBottom: "1px solid var(--gc-color-border)",
+          borderBottom: "1px solid #eee",
         }}
       >
         <div>
-          <h3
-            style={{
-              fontSize: "1.1rem",
-              fontWeight: 600,
-              color: "var(--gc-color-heading)",
-            }}
-          >
-            {user.user}
-          </h3>
-          <p style={{ fontSize: "0.8rem", color: "var(--gc-color-success)" }}>
-            {user.status || "Active Now"}
-          </p>
+          <h3 style={{ margin: 0 }}>{activeChatUser?.name}</h3>
+          <p style={{ margin: 0, fontSize: "0.8rem", color: "#777" }}>{activeChatUser?.status}</p>
         </div>
-        <MoreVertical
-          size={20}
-          style={{ color: "var(--gc-color-text-muted)", cursor: "pointer" }}
-        />
       </div>
 
-      {/* Chat Messages Area */}
-      <div
-        style={{
-          flexGrow: 1,
-          padding: "1rem",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      {/* Messages */}
+      <div style={{ flexGrow: 1, padding: "1rem", overflowY: "auto", display: "flex", flexDirection: "column" }}>
         {messages.map((msg) => (
           <MessageBubble key={msg.id} message={msg} />
         ))}
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef}></div>
       </div>
 
+      {/* Input */}
       <div
         style={{
           padding: "1rem 1.5rem",
-          borderTop: "1px solid var(--gc-color-border)",
+          borderTop: "1px solid #eee",
           display: "flex",
+          gap: "0.5rem",
           alignItems: "center",
-          gap: "0.75rem",
         }}
       >
         <input
@@ -220,36 +137,10 @@ const ChatWindow = ({ activeChatUser }) => {
           placeholder="Write a message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") handleSend();
-          }}
-          style={{
-            flexGrow: 1,
-            padding: "0.75rem",
-            borderRadius: "8px",
-            border: "1px solid var(--gc-color-border)",
-            outline: "none",
-          }}
+          onKeyPress={(e) => e.key === "Enter" && handleSend()}
+          style={{ flexGrow: 1, padding: "0.75rem", borderRadius: "8px", border: "1px solid #ccc" }}
         />
-        <button onClick={handleAttach} className="gc-btn-reset">
-          <Paperclip
-            size={20}
-            style={{ color: "var(--gc-color-text-muted)", cursor: "pointer" }}
-          />
-        </button>
-        <button
-          onClick={handleSend}
-          className="gc-btn-primary"
-          disabled={!input.trim()} // Disable if input is empty
-          style={{
-            padding: "0.5rem 1rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.25rem",
-          }}
-        >
-          Send <Send size={16} />
-        </button>
+        <button onClick={handleSend}>Send</button>
       </div>
     </div>
   );
