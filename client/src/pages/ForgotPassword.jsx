@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/forgotPassword.module.css"; // CSS module import
 import { toast } from "react-toastify";
 import API from "../utils/api.js";
+
 const ForgotPassword = () => {
 const [email, setEmail] = useState("");
 const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -16,7 +18,7 @@ const navigate = useNavigate();
             console.log(response.data)
             if (response.data) {
                 toast.success("OTP sent Successfully")
-                navigate("/passwordReset")
+                navigate("/passwordReset", { state: { email }})
                 setEmail("");
             }
 

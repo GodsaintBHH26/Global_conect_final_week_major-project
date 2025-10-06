@@ -108,6 +108,10 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
+
+
+
+
 // Function to verify the OTP and generate a temporary token to be used for setting a new password ------------>
 export const verifyOTP = async (req, res) => {
   try {
@@ -123,12 +127,39 @@ export const verifyOTP = async (req, res) => {
     const tempToken = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "15m",
     });
-
-    res.json({ message: "OTP verified ✅", tempToken });
+    res.json({ message: "OTP verified Successful ", tempToken:tempToken });
+    
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const resendOtpController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Generate OTP
+    const otp = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit
+    otpStore[email] = {
+      otp,
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    };
+
+    // Send OTP email
+    await sendEmail({
+      to: email,
+      subject: "Password Resend OTP",
+      text: `Your OTP to reset password is: ${otp}. It expires in 5 minutes.`,
+    });
+
+    res.json({ message: "OTP sent to your email" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 // Function to set new password ------------------------------------------->
 export const resetPassword = async (req, res) => {
