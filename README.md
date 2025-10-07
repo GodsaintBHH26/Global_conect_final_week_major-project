@@ -81,7 +81,7 @@ npm install
 Run the Server:
 
 npm run dev
-# Server should start on port 5000 (http://localhost:5000)
+# Server should start on port 3000 (http://localhost:3000)
 
 Step 3.2: Frontend (Client Setup)
 Open a new terminal tab/window, navigate to the client directory, and install dependencies:

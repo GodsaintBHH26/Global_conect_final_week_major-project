@@ -1,4 +1,4 @@
-import Post from "../models/Post.js"
+import Post from "../models/Post.js";
 import User from "../models/user.js";
 import { uploadToCloudinary } from "../utils/multer.js";
 
@@ -10,21 +10,25 @@ export const createPost = async (req, res) => {
   try {
     const { content } = req.body;
     let fileUrl = "";
-
-    if(req.file){
-      const result = await uploadToCloudinary(req.file, req);
-      fileUrl = result.secure_url;
+    if (req.file) {
+      fileUrl =`/global_connect/posts/${req.file.filename}`
     }
 
     const newPost = new Post({
-      userId:req.user.uid,
+      userId: req.user.uid,
       content,
-      image:fileUrl
-    })
+      image: fileUrl,
+    });
     await newPost.save();
-    res.status(201).json(newPost);
+    res.status(201).json({
+      newPost,
+      message: "File uploaded successfully",
+      post:newPost,
+    });
+    console.log("Made the post successfully");
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    console.log(err)
+    res.status(500).json({ success:false, msg: err.message });
   }
 };
 
@@ -38,10 +42,25 @@ export const getFeed = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    const ids = [user._id, ...(user.connections || [])].filter(Boolean);
-    const posts = await Post.find({ userId: { $in: ids } })
-      .sort({ createdAt: -1 })
-      .populate("userId", "name profilePic");
+    let posts = [];
+    const connections = user.connections || [];
+
+    if (connections.length == 0) {
+      posts = await Post.find({})
+        .sort({ createdAt: -1 })
+        .populate("userId", "name profilePic");
+    } else {
+      const connIds = [user._id, ...connections].filter(Boolean);
+      const connPosts = await Post.find({ userId: { $in: connIds } })
+        .sort({ createdAt: -1 })
+        .populate("userId", "name profilePic");
+      const otherPosts = await Post.find({ userId: { $nin: connIds } })
+        .sort({ createdAt: -1 })
+        .populate("userId", "name profilePic");
+
+      posts = [...connPosts, ...otherPosts];
+    }
+
     res.json(posts);
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -85,4 +104,3 @@ export const commentPost = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
-

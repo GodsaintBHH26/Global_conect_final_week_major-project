@@ -7,61 +7,12 @@ import { useAuth } from "../context/AuthContext";
 import API from "../utils/api";
 import { useEffect } from "react";
 // --- Dummy
-const suggestedUsers = [
-  {
-    id: 1,
-    name: "Arjun Sharma",
-    headline: "Full-Stack Developer | Node.js",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 2,
-    name: "Priya Singh",
-    headline: "UI/UX Designer at WebCo",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 3,
-    name: "Rohit Verma",
-    headline: "DevOps Engineer",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 4,
-    name: "Kirti Rao",
-    headline: "React Native Enthusiast",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 5,
-    name: "Suresh Iyer",
-    headline: "Recruiter at TalentHub",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 6,
-    name: "Tanvi Jain",
-    headline: "Product Manager",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 7,
-    name: "Vikas Gupta",
-    headline: "Data Scientist",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-  {
-    id: 8,
-    name: "Anjali Dubey",
-    headline: "MERN Stack Intern",
-    avatar: "PLACEHOLDER_USER_AVATAR_URL",
-  },
-];
 
 const MyNetworkPage = () => {
   const auth = useAuth();
   const [connections, setConnections] = useState([]);
   const [random, setRandom] = useState([]);
+  const [req, setReq] = useState([]);
 
   const fetchConn = async () => {
     const conData = await API.get(`/user/${auth.user?.uid}`);
@@ -87,6 +38,17 @@ const MyNetworkPage = () => {
     setRandom(filtered.slice(0, 6));
   };
 
+  const fetchRequests = async () => {
+    const uData = await API.get(`/user/${auth.user?.uid}`);
+    const allReq = await Promise.all(
+      uData.data.connectionRequests.map(async (id) => {
+        const res = await API.get(`/user/${id}`);
+        return res.data;
+      })
+    );
+    setReq(allReq);
+  };
+
   useEffect(() => {
     if (auth.user) {
       fetchConn();
@@ -97,6 +59,11 @@ const MyNetworkPage = () => {
       fetchRandom();
     }
   }, [auth.user, connections]);
+  useEffect(() => {
+    if (auth.user) {
+      fetchRequests();
+    }
+  }, [auth.user]);
 
   return (
     <div
@@ -161,12 +128,12 @@ const MyNetworkPage = () => {
                 <SuggestedConnectionCard
                   key={user._id}
                   user={user}
-                  connected={true}
+                  initiallyConnected={true}
                 />
               ))}
             </div>
-          </div>
-
+          </div>{" "}
+          {/** Connections */}
           <div className="gc-card" style={{ padding: "1.5rem" }}>
             <h2
               style={{
@@ -194,7 +161,44 @@ const MyNetworkPage = () => {
                 />
               ))}
             </div>
-          </div>
+          </div>{" "}
+          {/** Suggested users */}
+          <div className="gc-card" style={{ padding: "1.5rem" }}>
+            <h2
+              style={{
+                marginBottom: "1rem",
+                fontSize: "1.25rem",
+                fontWeight: 600,
+                color: "var(--gc-color-heading)",
+              }}
+            >
+              Connection requests
+            </h2>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                gap: "1rem",
+              }}
+            >
+              {req.length > 0 ? (
+                req.map((user) => (
+                  <SuggestedConnectionCard
+                    key={user._id}
+                    user={user}
+                    connected={false}
+                    requests={true}
+                  />
+                ))
+              ) : (
+                <>
+                  <h4>No requests available</h4>
+                </>
+              )}
+            </div>
+          </div>{" "}
+          {/** Connection requests */}
         </div>
       </main>
     </div>

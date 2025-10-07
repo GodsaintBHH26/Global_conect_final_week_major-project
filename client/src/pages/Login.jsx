@@ -52,7 +52,7 @@ const Login = () => {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^[a-z0-9._+-]+@gmail\.com$/,
+                      // value: /^[a-z0-9._+-]+@gmail\.com$/,
                       message: "Only lowercase Gmail is allowed",
                     },
                   })}
@@ -73,7 +73,7 @@ const Login = () => {
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
-                      value: 6,
+                      value: 4,
                       message: "Password must be at least 8 characters",
                     },
                   })}

@@ -8,29 +8,7 @@ import { createPost, getFeed, likePost, commentPost } from "../controllers/postC
 const router = express.Router();
 
 //router.post("/", authMiddleware, upload.single("image"), createPost);
-router.post("/",authMiddleware, upload.single("image"), async(req, res) => {
-    try {
-        const { content } = req.body;
-        let fileUrl = "";
-      if (!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
-      }
-  
-      const newPost = new Post({
-        userId:req.user.uid,
-        content,
-        image:`/global_connect/posts/${req.file.filename}`
-      })
-      await newPost.save();
-      res.status(201).json({
-        newPost,
-        message: "File uploaded successfully",
-        filePath: `/global_connect/posts/${req.file.filename}`,});
-      console.log("Posting successfully")
-    } catch (err) {
-      res.status(500).json({ msg: err.message });
-    }
-  });
+router.post("/",authMiddleware, upload.single("image"), createPost);
   
 router.get("/feed", authMiddleware, getFeed);
 router.post("/:id/like", authMiddleware, likePost);
