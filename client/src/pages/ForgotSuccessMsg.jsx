@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../styles/ForgotSuccessMsg.module.css';
+import styles from '../styles/forgotSuccessMsg.module.css';
 
 const ForgotSuccessMsg = () => {
   return (
