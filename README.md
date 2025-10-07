@@ -15,13 +15,11 @@ Status
 
 MVP - UI and Core API Functionality Integrated
 
-GitHub Repository
 
-[PLACEHOLDER: Insert Full GitHub Repository URL]
 
 Live Deployment URL
 
-[PLACEHOLDER: Insert Vercel/Render Live URL]
+[[PLACEHOLDER: Insert Vercel/Render Live URL]](https://global-conect-final-week-major-proj.vercel.app/)
 
 Team Contribution
 This project was developed collaboratively by Arijit, Akriti, Prasad, Nandinee, Rocky, and Ashish. All members contributed equally to the Frontend UI, Backend API development, and integration.
