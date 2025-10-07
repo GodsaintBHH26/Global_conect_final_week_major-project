@@ -14,6 +14,8 @@ import API from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import user from "../assets/user.png";
 import { toast } from "react-toastify";
+import EventModal from "./EventModal";
+import CreateArticle from "./CreateArticle";
 
 // Function to handle file upload directly from the main feed buttons
 const handleFileUpload = async (files) => {
@@ -41,7 +43,7 @@ const handleFileUpload = async (files) => {
 };
 
 // The simple post starter UI component
-const PostCreator = ({ onStartPost }) => (
+const PostCreator = ({ onStartPost, onOpenEvent, onOpenArticle }) => (
   <div className="gc-card gc-p-4" style={{ marginBottom: "1rem" }}>
        {" "}
     <div
@@ -108,7 +110,7 @@ const PostCreator = ({ onStartPost }) => (
         <Video size={20} style={{ color: "rgb(34, 197, 94)" }} />
       </button>
            {" "}
-      <button
+      <button onClick={onOpenEvent}
         className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset"
         style={{ borderRadius: "4px" }}
       >
@@ -116,7 +118,7 @@ const PostCreator = ({ onStartPost }) => (
          {" "}
       </button>
            {" "}
-      <button
+      <button onClick={onOpenArticle}
         className="gc-flex gc-align-center gc-space-x-2 gc-p-2 gc-btn-base gc-btn-reset gc-lg-hidden"
         style={{ borderRadius: "4px" }}
       >
@@ -261,6 +263,8 @@ const Post = ({ post }) => {
 
 const MainFeed = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const auth = useAuth();
 
@@ -284,7 +288,8 @@ const MainFeed = () => {
 
   return (
     <div>
-            <PostCreator onStartPost={() => setIsModalOpen(true)} />     {" "}
+            <PostCreator onStartPost={() => setIsModalOpen(true)}  onOpenEvent={() => setIsEventModalOpen(true)}
+        onOpenArticle={() => setIsArticleModalOpen(true)}/>     {" "}
       <div style={{ position: "relative", margin: "0.75rem 0" }}>
                 <hr style={{ borderColor: "var(--gc-color-border)" }} />       {" "}
         <span
@@ -308,13 +313,13 @@ const MainFeed = () => {
         <Post key={post._id} post={post} />
       ))}
            {" "}
-      {isModalOpen && (
-        <PostModal
-          onClose={() => setIsModalOpen(false)}
-          onPostSuccess={handlePostSuccess}
-        />
-      )}
-         {" "}
+      {isModalOpen && (<PostModal onClose={() => setIsModalOpen(false)} onPostSuccess={handlePostSuccess}/>)}{" "}
+      {isEventModalOpen && <EventModal onClose={() => setIsEventModalOpen(false)}  onCreate={(newEvent) => {
+      // console.log("New event created:", newEvent);
+      toast.success("Event created successfully!");
+      setIsEventModalOpen(false);
+    }} />}
+      {isArticleModalOpen && <CreateArticle onClose={() => setIsArticleModalOpen(false)}  />}
     </div>
   );
 };
