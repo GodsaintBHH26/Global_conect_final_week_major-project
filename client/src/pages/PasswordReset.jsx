@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import styles from "../styles/PasswordReset.module.css";
+import styles from "../styles/passwordReset.module.css";
 import API from "../utils/api";
 import { toast } from "react-toastify";
 
