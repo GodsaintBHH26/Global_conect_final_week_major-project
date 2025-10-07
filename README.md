@@ -94,7 +94,7 @@ npm install
 
 # 3. Create a .env file to point to the API:
 # .env file content:
-# VITE_API_BASE_URL=http://localhost:5000/api
+# VITE_API_BASE_URL=http://localhost:3000/api
 
 Run the Client:
 
@@ -121,3 +121,5 @@ Authentication Flow
 Login/Signup: Forms integrated with the MERN API via react-hook-form for secure user creation and session login.
 
 Global State: Uses UserContext to maintain authentication status and provide user profile data to all components.
+
+Website Link:- https://global-conect-final-week-major-proj.vercel.app/
