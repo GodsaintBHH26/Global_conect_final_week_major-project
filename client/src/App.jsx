@@ -17,7 +17,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordReset from './pages/PasswordReset';
-import SetNewPassword from './pages/setNewPassword';
+import SetNewPassword from './pages/SetNewPassword';
 import ForgotSuccessMsg from './pages/ForgotSuccessMsg';
 
 const App = () => {
